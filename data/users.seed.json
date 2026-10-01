@@ -1,0 +1,16 @@
+[
+  {
+    "id": "U-001",
+    "username": "Patrick",
+    "password": "Test@123",
+    "role": "Super Admin",
+    "email": "patrick@leadtools.com"
+  },
+  {
+    "id": "U-002",
+    "username": "agent",
+    "password": "Agent@123",
+    "role": "Agent",
+    "email": "agent@leadtools.com"
+  }
+]

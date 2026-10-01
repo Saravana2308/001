@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Lead Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  :root{
+    --orange:#FF7A28;
+    --orange-dark:#E85D04;
+    --orange-darker:#B44601;
+    --orange-mid:#FFA35C;
+    --orange-light:#FFD9B8;
+    --orange-pale:#FFF1E4;
+
+    --ink:#2A2420;
+    --muted:#8A8078;
+    --border:#EFE6DC;
+    --bg:#FFFFFF;
+    --bg-alt:#FFFAF6;
+    --card:#FFFFFF;
+    --text:#2A2420;
+
+    --radius:10px;
+    --font-head:'Barlow Condensed', sans-serif;
+    --font-body:'Inter', sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    background:var(--bg-alt);
+    color:var(--text);
+    font-family:var(--font-body);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ---------- TOP NAV ---------- */
+  .topnav{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    background:#FFFFFF;
+    border-bottom:1px solid var(--border);
+    padding:14px 32px;
+    position:sticky;
+    top:0;
+    z-index:20;
+    flex-wrap:wrap;
+  }
+  .topnav-brand{position:relative;display:flex;align-items:center;margin-right:8px;padding-left:22px;}
+  .topnav-brand .s-mark{
+    position:absolute;
+    left:-12px;top:50%;
+    transform:translateY(-54%);
+    font-family:var(--font-head);
+    font-weight:700;
+    font-size:52px;
+    line-height:1;
+    color:var(--orange);
+    opacity:0.20;
+    z-index:0;
+    user-select:none;
+    pointer-events:none;
+  }
+  .topnav-brand h1{
+    position:relative;
+    z-index:1;
+    font-family:var(--font-head);
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:0.3px;
+    margin:0;
+    color:var(--ink);
+  }
+  .topnav-links{
+    display:flex;
+    gap:4px;
+    flex:1;
+  }
+  .nav-item{
+    display:flex;align-items:center;gap:8px;
+    padding:9px 16px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:600;
+    color:var(--muted);
+    cursor:pointer;
+    border:none;
+    background:none;
+    font-family:var(--font-body);
+  }
+  .nav-item.active{
+    background:var(--orange-pale);
+    color:var(--orange-darker);
+  }
+  .nav-item:hover:not(.active){color:var(--ink);background:var(--bg-alt);}
+
+  .topnav-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .badge-chip{
+    display:flex;flex-direction:column;align-items:center;
+    padding:5px 14px;
+    border-radius:8px;
+    background:var(--bg-alt);
+    border:1px solid var(--border);
+    margin-right:4px;
+  }
+  .badge-chip .n{font-family:var(--font-head);font-weight:700;font-size:18px;color:var(--orange-darker);line-height:1;}
+  .badge-chip .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;}
+
+  .user-badge{
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--muted);
+    padding:6px 12px;
+    border-radius:100px;
+    background:var(--bg-alt);
+    border:1px solid var(--border);
+    margin-right:4px;
+    white-space:nowrap;
+  }
+
+  .action-btn{
+    display:flex;align-items:center;gap:6px;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--muted);
+    background:none;
+    border:1px solid var(--border);
+    cursor:pointer;
+    font-family:var(--font-body);
+    white-space:nowrap;
+  }
+  .action-btn:hover{border-color:var(--orange);color:var(--orange-darker);}
+
+  /* ---------- MAIN ---------- */
+  main{padding:32px 40px 60px;max-width:1280px;margin:0 auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .topbar{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:28px;
+    flex-wrap:wrap;
+  }
+  .topbar h2{
+    font-family:var(--font-head);
+    font-weight:600;
+    font-size:30px;
+    margin:0 0 4px;
+    color:var(--ink);
+  }
+  .topbar p{margin:0;color:var(--muted);font-size:14px;}
+
+  .btn{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:14px;
+    padding:10px 18px;
+    border-radius:8px;
+    border:1px solid transparent;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn-amber{background:var(--orange);color:#FFFFFF;}
+  .btn-amber:hover{background:var(--orange-dark);}
+  .btn-ghost{background:transparent;border-color:var(--border);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--orange);color:var(--orange-darker);}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+
+  .stat-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:14px;
+    margin-bottom:28px;
+  }
+  .stat-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-left:3px solid var(--orange);
+    border-radius:var(--radius);
+    padding:16px 18px;
+  }
+  .stat-card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
+  .stat-card .value{font-family:var(--font-head);font-size:32px;font-weight:600;margin-top:4px;color:var(--ink);}
+  .stat-card .value.amber{color:var(--orange-dark);}
+  .stat-card .value.teal{color:var(--orange-darker);}
+  .stat-card .value.danger{color:var(--muted);}
+
+  .chart-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:16px;
+    margin-bottom:16px;
+  }
+  @media (max-width:960px){ .chart-grid{grid-template-columns:1fr;} }
+  .chart-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px;
+  }
+  .chart-card h3{
+    font-family:var(--font-head);font-weight:600;font-size:18px;margin:0 0 14px;color:var(--ink);
+  }
+  .chart-card .canvas-wrap{position:relative;height:230px;}
+
+  .recent-list{list-style:none;margin:0;padding:0;}
+  .recent-list li{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:11px 0;border-bottom:1px solid var(--border);font-size:13.5px;
+  }
+  .recent-list li:last-child{border-bottom:none;}
+  .recent-list .r-name{font-weight:600;color:var(--ink);}
+  .recent-list .r-meta{color:var(--muted);font-size:12px;}
+  .recent-list .r-time{color:var(--muted);font-size:12px;white-space:nowrap;}
+
+  .toolbar{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+    align-items:center;
+  }
+  .search-box{
+    flex:1;
+    min-width:200px;
+    position:relative;
+  }
+  .search-box input{
+    width:100%;
+    padding:10px 14px 10px 36px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:14px;
+  }
+  .search-box::before{
+    content:"";
+    position:absolute;left:12px;top:50%;transform:translateY(-50%);
+    width:14px;height:14px;
+    border:2px solid var(--muted);
+    border-radius:50%;
+  }
+  .search-box::after{
+    content:"";
+    position:absolute;left:21px;top:calc(50% + 6px);
+    width:6px;height:2px;
+    background:var(--muted);
+    transform:rotate(45deg);
+  }
+  select, .select{
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:14px;
+  }
+
+  .table-wrap{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:auto;
+  }
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:1040px;}
+  thead th{
+    text-align:left;
+    font-family:var(--font-head);
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:0.02em;
+    color:var(--muted);
+    padding:14px 16px;
+    border-bottom:1px solid var(--border);
+    background:var(--card);
+    position:sticky;top:0;
+    white-space:nowrap;
+  }
+  tbody td{
+    padding:12px 16px;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:var(--orange-pale);}
+  .biz-name{font-weight:600;color:var(--ink);}
+  .biz-addr{color:var(--muted);font-size:12.5px;margin-top:2px;}
+  .rating{white-space:nowrap;}
+  .rating .stars{color:var(--orange);}
+  .cat-pill{
+    display:inline-block;
+    padding:3px 10px;
+    border-radius:100px;
+    font-size:12px;
+    font-weight:600;
+    background:var(--bg-alt);
+    border:1px solid var(--border);
+    color:var(--ink);
+    white-space:nowrap;
+  }
+  .region-tag{font-size:12px;color:var(--muted);white-space:nowrap;}
+
+  .status-select{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:12.5px;
+    padding:6px 10px;
+    border-radius:100px;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .status-New{background:#F3EFEA;color:#7A7168;}
+  .status-Contacted{background:var(--orange-pale);color:var(--orange-darker);}
+  .status-Quoted{background:var(--orange-light);color:#8A3D00;}
+  .status-Won{background:var(--orange);color:#FFFFFF;}
+  .status-Lost{background:#EFEAE5;color:#A69C92;}
+
+  .notes-input{
+    width:160px;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:13px;
+    padding:6px 8px;
+    border-radius:6px;
+    resize:vertical;
+    min-height:32px;
+  }
+  .notes-input:hover, .notes-input:focus{border-color:var(--border);background:var(--bg-alt);}
+
+  .nowebsite-toggle{
+    display:flex;align-items:center;gap:6px;
+    cursor:pointer;font-size:12.5px;color:var(--muted);
+    white-space:nowrap;
+  }
+  .nowebsite-toggle input{accent-color:var(--orange);}
+
+  .phone-link{color:var(--text);text-decoration:none;}
+  .phone-link:hover{color:var(--orange-dark);}
+
+  .row-actions{display:flex;gap:2px;}
+  .icon-btn{
+    background:none;border:none;cursor:pointer;color:var(--muted);
+    font-size:15px;padding:5px 7px;border-radius:6px;
+  }
+  .icon-btn:hover{color:var(--orange-dark);background:var(--orange-pale);}
+  .icon-btn.danger:hover{color:#A63B00;background:#FBEAE0;}
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(42,36,32,0.45);
+    display:none;align-items:center;justify-content:center;z-index:50;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:#FFFFFF;
+    border-radius:14px;
+    padding:28px;
+    width:100%;max-width:440px;
+    border:1px solid var(--border);
+    max-height:90vh;overflow:auto;
+  }
+  .modal h3{font-family:var(--font-head);font-size:22px;margin:0 0 18px;font-weight:600;color:var(--ink);}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-weight:600;}
+  .field input, .field select{
+    width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);
+    background:var(--bg-alt);color:var(--text);font-family:var(--font-body);font-size:14px;
+  }
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;}
+
+  .empty-state{
+    padding:60px 20px;text-align:center;color:var(--muted);
+  }
+  .empty-state .glyph{font-size:32px;margin-bottom:10px;}
+
+  footer.hint{
+    margin-top:18px;font-size:12.5px;color:var(--muted);
+  }
+
+  .site-footer{
+    text-align:center;
+    padding:20px 20px 26px;
+    font-size:12.5px;
+    color:var(--muted);
+    border-top:1px solid var(--border);
+    max-width:1280px;
+    margin:0 auto;
+  }
+
+  /* ---------- AUTH SCREEN ---------- */
+  #authScreen{
+    position:fixed;inset:0;z-index:100;
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 15% 15%, var(--orange-pale) 0%, transparent 45%),
+      radial-gradient(circle at 85% 85%, var(--orange-light) 0%, transparent 40%),
+      #FFFFFF;
+    padding:20px;
+  }
+  .auth-card{
+    width:100%;max-width:380px;
+    background:#FFFFFF;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:36px 32px;
+    color:var(--ink);
+    box-shadow:0 20px 50px rgba(232,93,4,0.08);
+  }
+  .auth-brand{position:relative;display:flex;align-items:center;margin-bottom:4px;padding-left:26px;}
+  .auth-brand .s-mark{
+    position:absolute;left:-14px;top:50%;transform:translateY(-56%);
+    font-family:var(--font-head);font-weight:700;font-size:60px;line-height:1;
+    color:var(--orange);opacity:0.20;z-index:0;user-select:none;pointer-events:none;
+  }
+  .auth-brand h1{position:relative;z-index:1;font-family:var(--font-head);font-weight:700;font-size:26px;margin:0;color:var(--ink);}
+  .auth-card .auth-sub{font-size:13px;color:var(--muted);margin:0 0 26px 25px;}
+  .auth-card h2{font-family:var(--font-head);font-weight:600;font-size:19px;margin:0 0 18px;color:var(--ink);}
+  .auth-field{margin-bottom:14px;}
+  .auth-field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px;font-weight:600;}
+  .auth-field input{
+    width:100%;padding:11px 13px;border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--bg-alt);color:var(--ink);
+    font-family:var(--font-body);font-size:14px;
+  }
+  .auth-field input:focus{outline:none;border-color:var(--orange);}
+  .auth-error{
+    background:#FBEAE0;color:#A63B00;
+    border:1px solid #F3C7A8;
+    padding:9px 12px;border-radius:8px;
+    font-size:13px;margin-bottom:14px;display:none;
+  }
+  .auth-error.show{display:block;}
+  .auth-btn{
+    width:100%;padding:12px;margin-top:6px;
+    background:var(--orange);color:#FFFFFF;
+    border:none;border-radius:8px;
+    font-family:var(--font-body);font-weight:700;font-size:14.5px;
+    cursor:pointer;
+  }
+  .auth-btn:hover{background:var(--orange-dark);}
+  .auth-switch{
+    margin-top:18px;text-align:center;font-size:13px;color:var(--muted);
+  }
+  .auth-switch a{color:var(--orange-dark);text-decoration:none;cursor:pointer;font-weight:600;}
+  .auth-hint{
+    margin-top:22px;font-size:11.5px;color:var(--muted);line-height:1.5;
+    border-top:1px solid var(--border);padding-top:14px;
+  }
+  #appShell{display:none;}
+  #appShell.visible{display:block;}
+
+  @media (max-width:860px){
+    .topnav{padding:12px 18px;}
+    .topnav-links{order:3;width:100%;overflow-x:auto;}
+    main{padding:24px 18px 40px;}
+    table{min-width:900px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="authScreen">
+  <div class="auth-card">
+    <div class="auth-brand"><span class="s-mark">S</span><h1>LEAD TOOLS</h1></div>
+    <p class="auth-sub">Outreach Tracker</p>
+
+    <div id="authErrorBox" class="auth-error"></div>
+
+    <div id="signinPane">
+      <h2>Sign in</h2>
+      <div class="auth-field"><label>Username</label><input type="text" id="si_username" autocomplete="username"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="si_password" autocomplete="current-password"></div>
+      <button class="auth-btn" id="si_submit">Sign in</button>
+      <div class="auth-switch">Forgot it? <a id="toResetLink">Reset login</a></div>
+    </div>
+
+    <div id="setupPane" style="display:none;">
+      <h2>Create your login</h2>
+      <div class="auth-field"><label>Username</label><input type="text" id="su_username" autocomplete="username"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="su_password" autocomplete="new-password"></div>
+      <div class="auth-field"><label>Confirm password</label><input type="password" id="su_password2" autocomplete="new-password"></div>
+      <button class="auth-btn" id="su_submit">Create login &amp; continue</button>
+      <div class="auth-switch" id="toSigninWrap" style="display:none;">Already set up? <a id="toSigninLink">Sign in</a></div>
+    </div>
+
+    <p class="auth-hint">This login only gates access on this device/browser &mdash; credentials are stored locally, not on a server. Don't reuse a password you use elsewhere.</p>
+  </div>
+</div>
+
+<div id="appShell">
+
+<header class="topnav">
+  <div class="topnav-brand"><span class="s-mark">S</span><h1>LEAD TOOLS</h1></div>
+  <nav class="topnav-links">
+    <button class="nav-item active" id="navDashboard" data-view="viewDashboard">Dashboard</button>
+    <button class="nav-item" id="navLeads" data-view="viewLeads">Leads</button>
+    <button class="nav-item" id="navUsers" data-view="viewUsers">Users</button>
+  </nav>
+  <div class="topnav-actions">
+    <span id="currentUserBadge" class="user-badge"></span>
+    <div class="badge-chip"><span class="n" id="topTotal">0</span><span class="l">Leads</span></div>
+    <div class="badge-chip"><span class="n" id="topNoWeb">0</span><span class="l">To verify</span></div>
+    <button class="action-btn" id="navExport">Export CSV</button>
+    <button class="action-btn" id="navReset">Reset demo data</button>
+    <button class="action-btn" id="navLogout">Log out</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ DASHBOARD VIEW ============ -->
+  <section class="view active" id="viewDashboard">
+    <div class="topbar">
+      <div>
+        <h2>Dashboard</h2>
+        <p>Overview of your trade-lead pipeline.</p>
+      </div>
+    </div>
+
+    <div class="stat-cards">
+      <div class="stat-card"><div class="label">Total leads</div><div class="value" id="dashTotal">0</div></div>
+      <div class="stat-card"><div class="label">New</div><div class="value" id="dashNew">0</div></div>
+      <div class="stat-card"><div class="label">Contacted</div><div class="value amber" id="dashContacted">0</div></div>
+      <div class="stat-card"><div class="label">Quoted</div><div class="value" id="dashQuoted">0</div></div>
+      <div class="stat-card"><div class="label">Won</div><div class="value teal" id="dashWon">0</div></div>
+      <div class="stat-card"><div class="label">Win rate</div><div class="value" id="dashWinRate">0%</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Leads by category</h3>
+        <div class="canvas-wrap"><canvas id="chartCategory"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Pipeline status</h3>
+        <div class="canvas-wrap"><canvas id="chartStatus"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Leads by locality</h3>
+        <div class="canvas-wrap"><canvas id="chartLocality"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Recently added</h3>
+        <ul class="recent-list" id="recentList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEADS VIEW ============ -->
+  <section class="view" id="viewLeads">
+    <div class="topbar">
+      <div>
+        <h2>Leads</h2>
+        <p>Plumbers, electricians, carpenters, builders &amp; landscapers.</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btnExportTop">Export CSV</button>
+        <button class="btn btn-amber" id="btnAdd">+ Add lead</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search by name or suburb&hellip;">
+      </div>
+      <select id="categoryFilter">
+        <option value="">All categories</option>
+        <option value="Plumber">Plumber</option>
+        <option value="Electrician">Electrician</option>
+        <option value="Carpenter">Carpenter</option>
+        <option value="Builder">Builder</option>
+        <option value="Landscaper">Landscaper</option>
+        <option value="Mechanic">Mechanic</option>
+        <option value="Painter">Painter</option>
+        <option value="Roofer">Roofer</option>
+        <option value="Air Conditioning">Air Conditioning</option>
+        <option value="Pool Services">Pool Services</option>
+        <option value="Mortgage Broker">Mortgage Broker</option>
+        <option value="Other">Other</option>
+      </select>
+      <select id="localityFilter">
+        <option value="">All localities</option>
+        <option value="Brisbane CBD">Brisbane CBD</option>
+        <option value="Gold Coast">Gold Coast</option>
+        <option value="Sunnybank">Sunnybank</option>
+        <option value="Caboolture">Caboolture</option>
+        <option value="Moorooka">Moorooka</option>
+        <option value="Rocklea">Rocklea</option>
+        <option value="Acacia Ridge">Acacia Ridge</option>
+        <option value="Coopers Plains">Coopers Plains</option>
+        <option value="Archerfield">Archerfield</option>
+        <option value="Salisbury">Salisbury</option>
+        <option value="Geebung">Geebung</option>
+        <option value="Capalaba">Capalaba</option>
+        <option value="Cleveland">Cleveland</option>
+        <option value="Ipswich">Ipswich</option>
+        <option value="Toowoomba">Toowoomba</option>
+        <option value="Williams Landing">Williams Landing</option>
+        <option value="Point Cook">Point Cook</option>
+        <option value="Tarneit">Tarneit</option>
+        <option value="Hoppers Crossing">Hoppers Crossing</option>
+        <option value="Werribee">Werribee</option>
+        <option value="Laverton">Laverton</option>
+        <option value="Other">Other</option>
+      </select>
+      <select id="statusFilter">
+        <option value="">All statuses</option>
+        <option value="New">New</option>
+        <option value="Contacted">Contacted</option>
+        <option value="Quoted">Quoted</option>
+        <option value="Won">Won</option>
+        <option value="Lost">Lost</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Business</th>
+            <th>Category</th>
+            <th>Locality</th>
+            <th>Phone</th>
+            <th>Rating</th>
+            <th>Website</th>
+            <th>Status</th>
+            <th>User Name</th>
+            <th>Notes</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="glyph">&#128269;</div>
+        No leads match those filters.
+      </div>
+    </div>
+
+    <footer class="hint">Data is saved on this device only. Use Export CSV to back it up or share it.</footer>
+  </section>
+
+  <!-- ============ USERS VIEW (Super Admin only) ============ -->
+  <section class="view" id="viewUsers">
+    <div class="topbar">
+      <div>
+        <h2>Users</h2>
+        <p>Manage Super Admin and Agent access to this app.</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-amber" id="btnAddUser">+ Add user</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Email ID</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="usersTbody"></tbody>
+      </table>
+    </div>
+
+    <footer class="hint">Super Admin can manage all leads, users and settings. Agents can work leads but can't reset data or manage users.</footer>
+  </section>
+
+</main>
+
+<footer class="site-footer">© 2026 Your Saravana. All rights reserved.</footer>
+
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">Add a lead</h3>
+    <div class="field"><label>Business name</label><input type="text" id="f_name"></div>
+    <div class="field"><label>Category</label>
+      <select id="f_category">
+        <option>Plumber</option><option>Electrician</option><option>Carpenter</option><option>Builder</option><option>Landscaper</option><option>Mechanic</option><option>Painter</option><option>Roofer</option><option>Air Conditioning</option><option>Pool Services</option><option>Mortgage Broker</option><option>Other</option>
+      </select>
+    </div>
+    <div class="field"><label>Locality</label>
+      <select id="f_locality">
+        <option>Brisbane CBD</option><option>Gold Coast</option><option>Sunnybank</option><option>Caboolture</option><option>Moorooka</option><option>Rocklea</option><option>Acacia Ridge</option><option>Coopers Plains</option><option>Archerfield</option><option>Salisbury</option><option>Geebung</option><option>Capalaba</option><option>Cleveland</option><option>Ipswich</option><option>Toowoomba</option><option>Williams Landing</option><option>Point Cook</option><option>Tarneit</option><option>Hoppers Crossing</option><option>Werribee</option><option>Laverton</option><option>Other</option>
+      </select>
+    </div>
+    <div class="field"><label>Address / suburb</label><input type="text" id="f_address"></div>
+    <div class="field"><label>Phone</label><input type="text" id="f_phone"></div>
+    <div class="field"><label>Rating (optional)</label><input type="text" id="f_rating" placeholder="e.g. 4.8"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="f_cancel">Cancel</button>
+      <button class="btn btn-amber" id="f_save">Save lead</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="userModalOverlay">
+  <div class="modal">
+    <h3 id="userModalTitle">Add a user</h3>
+    <div class="field"><label>Username</label><input type="text" id="u_username"></div>
+    <div class="field"><label>Email ID</label><input type="text" id="u_email" placeholder="name@company.com"></div>
+    <div class="field"><label>Role</label>
+      <select id="u_role">
+        <option>Agent</option><option>Super Admin</option>
+      </select>
+    </div>
+    <div class="field"><label>Password</label><input type="text" id="u_password" placeholder="Leave blank to keep current"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="u_cancel">Cancel</button>
+      <button class="btn btn-amber" id="u_save">Save user</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= AUTH GATE (backend-powered) ================= */
+// NOTE: this checks credentials against the real /api/login backend now,
+// but the "session" itself is still just a plain object in sessionStorage -
+// there's no signed token / cookie. Fine for a small internal tool; if this
+// ever needs to be genuinely secure, that session layer needs real auth
+// (e.g. signed JWT or an auth provider) - see README.md.
+const SESSION_KEY = "qld_trade_leads_session_v1";
+
+const authScreen = document.getElementById('authScreen');
+const appShell = document.getElementById('appShell');
+const signinPane = document.getElementById('signinPane');
+const setupPane = document.getElementById('setupPane');
+const authErrorBox = document.getElementById('authErrorBox');
+
+let currentUser = null;
+
+function showError(msg){
+  authErrorBox.textContent = msg;
+  authErrorBox.classList.add('show');
+}
+function hideError(){
+  authErrorBox.classList.remove('show');
+}
+
+function showSetupPane(showSigninLink){
+  hideError();
+  setupPane.style.display = 'block';
+  signinPane.style.display = 'none';
+  document.getElementById('toSigninWrap').style.display = showSigninLink ? 'block' : 'none';
+}
+function showSigninPane(){
+  hideError();
+  signinPane.style.display = 'block';
+  setupPane.style.display = 'none';
+}
+
+function applyRoleUI(){
+  const isSuperAdmin = currentUser && currentUser.role === 'Super Admin';
+  document.getElementById('navUsers').style.display = isSuperAdmin ? '' : 'none';
+  document.getElementById('navReset').style.display = isSuperAdmin ? '' : 'none';
+  const badge = document.getElementById('currentUserBadge');
+  if(badge && currentUser){
+    badge.textContent = currentUser.username + ' · ' + currentUser.role;
+  }
+}
+
+async function enterApp(){
+  authScreen.style.display = 'none';
+  appShell.classList.add('visible');
+  applyRoleUI();
+  await renderAll();
+}
+
+async function initAuth(){
+  const savedSession = sessionStorage.getItem(SESSION_KEY);
+  if(savedSession){
+    try{
+      currentUser = JSON.parse(savedSession);
+      await enterApp();
+      return;
+    }catch(e){}
+  }
+  document.getElementById('si_username').value = '';
+  showSigninPane();
+}
+
+document.getElementById('su_submit').addEventListener('click', async () => {
+  const u = document.getElementById('su_username').value.trim();
+  const p = document.getElementById('su_password').value;
+  const p2 = document.getElementById('su_password2').value;
+  if(!u || !p){ showError('Enter a username and password.'); return; }
+  if(p.length < 4){ showError('Password should be at least 4 characters.'); return; }
+  if(p !== p2){ showError('Passwords do not match.'); return; }
+  try{
+    const res = await fetch('/api/users', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ username:u, password:p, role:'Agent', email:'' })
+    });
+    const data = await res.json();
+    if(!res.ok){ showError(data.error || 'Could not create login.'); return; }
+    currentUser = data;
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+    hideError();
+    await enterApp();
+  }catch(err){ showError('Could not reach the server.'); }
+});
+
+document.getElementById('si_submit').addEventListener('click', async () => {
+  const u = document.getElementById('si_username').value.trim();
+  const p = document.getElementById('si_password').value;
+  try{
+    const res = await fetch('/api/login', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ username:u, password:p })
+    });
+    const data = await res.json();
+    if(!res.ok){
+      showError(data.error || 'Incorrect username or password.');
+      return;
+    }
+    currentUser = data;
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+    hideError();
+    await enterApp();
+  }catch(err){ showError('Could not reach the server.'); }
+});
+
+document.getElementById('toResetLink').addEventListener('click', () => {
+  alert('Ask your Super Admin to reset or recreate your login from the Users tab.');
+});
+document.getElementById('toSigninLink').addEventListener('click', showSigninPane);
+
+document.getElementById('navLogout').addEventListener('click', () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+});
+
+['si_username','si_password'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if(e.key === 'Enter') document.getElementById('si_submit').click(); });
+});
+['su_username','su_password','su_password2'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if(e.key === 'Enter') document.getElementById('su_submit').click(); });
+});
+
+/* ================= NAV / VIEW ROUTING ================= */
+function switchView(viewId){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(viewId).classList.add('active');
+  document.querySelectorAll('.nav-item[data-view]').forEach(b => b.classList.remove('active'));
+  document.querySelector('.nav-item[data-view="'+viewId+'"]').classList.add('active');
+  if(viewId === 'viewDashboard') renderDashboard();
+  if(viewId === 'viewUsers') renderUsers();
+}
+document.getElementById('navDashboard').addEventListener('click', () => switchView('viewDashboard'));
+document.getElementById('navLeads').addEventListener('click', () => switchView('viewLeads'));
+document.getElementById('navUsers').addEventListener('click', () => switchView('viewUsers'));
+
+/* ================= LEADS DATA (backend-powered) ================= */
+const API_BASE = '/api';
+
+async function apiGetLeads(){
+  const res = await fetch(API_BASE + '/leads');
+  if(!res.ok) throw new Error('Failed to load leads');
+  return res.json();
+}
+async function apiCreateLead(payload){
+  const res = await fetch(API_BASE + '/leads', {
+    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+  });
+  if(!res.ok) throw new Error('Failed to create lead');
+  return res.json();
+}
+async function apiUpdateLead(id, patch){
+  const res = await fetch(API_BASE + '/leads', {
+    method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id, ...patch})
+  });
+  if(!res.ok) throw new Error('Failed to update lead');
+  return res.json();
+}
+async function apiDeleteLead(id){
+  const res = await fetch(API_BASE + '/leads?id=' + encodeURIComponent(id), { method: 'DELETE' });
+  if(!res.ok) throw new Error('Failed to delete lead');
+  return res.json();
+}
+
+let leads = [];
+async function loadLeadsFromServer(){
+  try{
+    leads = await apiGetLeads();
+  }catch(e){
+    console.error(e);
+    leads = [];
+  }
+  return leads;
+}
+
+const tbody = document.getElementById('tbody');
+const emptyState = document.getElementById('emptyState');
+const searchInput = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
+const localityFilter = document.getElementById('localityFilter');
+const statusFilter = document.getElementById('statusFilter');
+
+function currentFilters(){
+  return {
+    q: searchInput.value.trim().toLowerCase(),
+    cat: categoryFilter.value,
+    loc: localityFilter.value,
+    status: statusFilter.value
+  };
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function timeAgo(iso){
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const h = Math.floor(diffMs / 3600000);
+  if(h < 1) return 'Just now';
+  if(h < 24) return h + 'h ago';
+  const d = Math.floor(h / 24);
+  return d + 'd ago';
+}
+
+function renderTable(){
+  const {q, cat, loc, status} = currentFilters();
+  const filtered = leads.filter(l => {
+      if(cat && l.category !== cat) return false;
+      if(loc && l.locality !== loc) return false;
+      if(status && l.status !== status) return false;
+      if(q && !(l.name.toLowerCase().includes(q) || l.address.toLowerCase().includes(q))) return false;
+      return true;
+    });
+
+  tbody.innerHTML = '';
+  emptyState.style.display = filtered.length ? 'none' : 'block';
+
+  filtered.forEach((l) => {
+    const tr = document.createElement('tr');
+    const ratingHtml = l.rating ? `<span class="stars">&#9733;</span> ${Number(l.rating).toFixed(1)} <span style="color:var(--muted)">(${l.reviews||0})</span>` : '&mdash;';
+
+    tr.innerHTML = `
+      <td>
+        <div class="biz-name">${escapeHtml(l.name)}</div>
+        <div class="biz-addr">${escapeHtml(l.address)}</div>
+      </td>
+      <td><span class="cat-pill">${escapeHtml(l.category)}</span></td>
+      <td><span class="region-tag">${escapeHtml(l.locality||'')}</span></td>
+      <td><a class="phone-link" href="tel:${escapeHtml((l.phone||'').replace(/\s/g,''))}">${escapeHtml(l.phone||'')}</a></td>
+      <td class="rating">${ratingHtml}</td>
+      <td>
+        <label class="nowebsite-toggle">
+          <input type="checkbox" data-role="noweb" ${l.noWebsite ? 'checked' : ''}>
+          No site confirmed
+        </label>
+      </td>
+      <td>
+        <select class="status-select status-${l.status}" data-role="status">
+          ${["New","Contacted","Quoted","Won","Lost"].map(s => `<option value="${s}" ${l.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select class="select" data-role="assignedTo">
+          <option value="" ${!l.assignedTo ? 'selected' : ''}>Unassigned</option>
+          ${usersCache.map(u => `<option value="${escapeHtml(u.username)}" ${l.assignedTo===u.username?'selected':''}>${escapeHtml(u.username)} (${escapeHtml(u.role)})</option>`).join('')}
+        </select>
+      </td>
+      <td><textarea class="notes-input" data-role="notes" placeholder="Add a note&hellip;">${escapeHtml(l.notes||'')}</textarea></td>
+      <td>
+        <div class="row-actions">
+          <button class="icon-btn" data-role="edit" title="Edit lead">&#9998;</button>
+          <button class="icon-btn danger" data-role="delete" title="Remove lead">&times;</button>
+        </div>
+      </td>
+    `;
+
+    const id = l.id;
+    tr.querySelector('[data-role="status"]').addEventListener('change', async (e) => {
+      const newStatus = e.target.value;
+      e.target.className = 'status-select status-' + newStatus;
+      try{
+        await apiUpdateLead(id, { status: newStatus });
+        const l2 = leads.find(x => x.id === id); if(l2) l2.status = newStatus;
+        renderStatsSidebar();
+      }catch(err){ alert('Could not save status change.'); }
+    });
+    tr.querySelector('[data-role="assignedTo"]').addEventListener('change', async (e) => {
+      const newAssignee = e.target.value;
+      try{
+        await apiUpdateLead(id, { assignedTo: newAssignee });
+        const l2 = leads.find(x => x.id === id); if(l2) l2.assignedTo = newAssignee;
+      }catch(err){ alert('Could not assign this lead.'); }
+    });
+    tr.querySelector('[data-role="noweb"]').addEventListener('change', async (e) => {
+      const checked = e.target.checked;
+      try{
+        await apiUpdateLead(id, { noWebsite: checked });
+        const l2 = leads.find(x => x.id === id); if(l2) l2.noWebsite = checked;
+        renderStatsSidebar();
+      }catch(err){ alert('Could not save that change.'); }
+    });
+    tr.querySelector('[data-role="notes"]').addEventListener('blur', async (e) => {
+      const val = e.target.value;
+      try{
+        await apiUpdateLead(id, { notes: val });
+        const l2 = leads.find(x => x.id === id); if(l2) l2.notes = val;
+      }catch(err){ alert('Could not save note.'); }
+    });
+    tr.querySelector('[data-role="delete"]').addEventListener('click', async () => {
+      if(!confirm('Remove ' + l.name + '?')) return;
+      try{
+        await apiDeleteLead(id);
+        leads = leads.filter(x => x.id !== id);
+        renderAll();
+      }catch(err){ alert('Could not delete lead.'); }
+    });
+    tr.querySelector('[data-role="edit"]').addEventListener('click', () => openModal(id));
+
+    tbody.appendChild(tr);
+  });
+}
+
+function renderStatsSidebar(){
+  document.getElementById('topTotal').textContent = leads.length;
+  document.getElementById('topNoWeb').textContent = leads.filter(l=>l.noWebsite).length;
+}
+
+let chartCategoryInst = null, chartStatusInst = null, chartLocalityInst = null;
+
+function countBy(arr, key){
+  const map = {};
+  arr.forEach(l => { map[l[key]] = (map[l[key]]||0) + 1; });
+  return map;
+}
+
+function renderDashboard(){
+  const total = leads.length;
+  const byStatus = countBy(leads, 'status');
+  const byCategory = countBy(leads, 'category');
+  const byLocality = countBy(leads, 'locality');
+
+  document.getElementById('dashTotal').textContent = total;
+  document.getElementById('dashNew').textContent = byStatus['New']||0;
+  document.getElementById('dashContacted').textContent = byStatus['Contacted']||0;
+  document.getElementById('dashQuoted').textContent = byStatus['Quoted']||0;
+  document.getElementById('dashWon').textContent = byStatus['Won']||0;
+  const decided = (byStatus['Won']||0) + (byStatus['Lost']||0);
+  const winRate = decided ? Math.round(((byStatus['Won']||0) / decided) * 100) : 0;
+  document.getElementById('dashWinRate').textContent = winRate + '%';
+
+  const catLabels = Object.keys(byCategory);
+  const catData = catLabels.map(k => byCategory[k]);
+  const orangeShades = ['#FF7A28','#FFA35C','#E85D04','#FFC48C','#B44601','#F3EFEA'];
+
+  const ctxCat = document.getElementById('chartCategory').getContext('2d');
+  if(chartCategoryInst){
+    chartCategoryInst.data.labels = catLabels;
+    chartCategoryInst.data.datasets[0].data = catData;
+    chartCategoryInst.update();
+  }else{
+    chartCategoryInst = new Chart(ctxCat, {
+      type: 'bar',
+      data: { labels: catLabels, datasets: [{ label: 'Leads', data: catData, backgroundColor: '#FF7A28', borderRadius: 6 }] },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false} },
+        scales:{ y:{ beginAtZero:true, ticks:{ precision:0, color:'#8A8078' }, grid:{color:'#F1EAE3'} },
+                 x:{ ticks:{ color:'#8A8078' }, grid:{display:false} } }
+      }
+    });
+  }
+
+  const statusOrder = ["New","Contacted","Quoted","Won","Lost"];
+  const statusLabels = statusOrder.filter(s => byStatus[s]);
+  const statusData = statusLabels.map(s => byStatus[s]);
+  const statusColors = { New:'#D9D2CA', Contacted:'#FFC48C', Quoted:'#FFA35C', Won:'#FF7A28', Lost:'#F3EFEA' };
+
+  const ctxStatus = document.getElementById('chartStatus').getContext('2d');
+  if(chartStatusInst){
+    chartStatusInst.data.labels = statusLabels;
+    chartStatusInst.data.datasets[0].data = statusData;
+    chartStatusInst.data.datasets[0].backgroundColor = statusLabels.map(s => statusColors[s]);
+    chartStatusInst.update();
+  }else{
+    chartStatusInst = new Chart(ctxStatus, {
+      type: 'doughnut',
+      data: { labels: statusLabels, datasets: [{ data: statusData, backgroundColor: statusLabels.map(s => statusColors[s]), borderColor:'#FFFFFF', borderWidth:2 }] },
+      options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11}, color:'#2A2420' } } } }
+    });
+  }
+
+  const locLabels = Object.keys(byLocality);
+  const locData = locLabels.map(k => byLocality[k]);
+  const ctxLoc = document.getElementById('chartLocality').getContext('2d');
+  if(chartLocalityInst){
+    chartLocalityInst.data.labels = locLabels;
+    chartLocalityInst.data.datasets[0].data = locData;
+    chartLocalityInst.update();
+  }else{
+    chartLocalityInst = new Chart(ctxLoc, {
+      type: 'bar',
+      data: { labels: locLabels, datasets: [{ label:'Leads', data: locData, backgroundColor:'#E85D04', borderRadius:6 }] },
+      options: {
+        indexAxis:'y', responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false} },
+        scales:{ x:{ beginAtZero:true, ticks:{ precision:0, color:'#8A8078' }, grid:{color:'#F1EAE3'} },
+                 y:{ ticks:{ color:'#8A8078' }, grid:{display:false} } }
+      }
+    });
+  }
+
+  const recentList = document.getElementById('recentList');
+  const recent = [...leads].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0,6);
+  recentList.innerHTML = recent.map(l => `
+    <li>
+      <div>
+        <div class="r-name">${escapeHtml(l.name)}</div>
+        <div class="r-meta">${escapeHtml(l.category)} &middot; ${escapeHtml(l.locality||'')}</div>
+      </div>
+      <div class="r-time">${timeAgo(l.createdAt)}</div>
+    </li>
+  `).join('') || '<li class="r-meta">No leads yet.</li>';
+}
+
+async function renderAll(){
+  await Promise.all([loadLeadsFromServer(), loadUsersCache()]);
+  renderTable();
+  renderStatsSidebar();
+  renderDashboard();
+}
+
+searchInput.addEventListener('input', renderTable);
+categoryFilter.addEventListener('change', renderTable);
+localityFilter.addEventListener('change', renderTable);
+statusFilter.addEventListener('change', renderTable);
+
+const modalOverlay = document.getElementById('modalOverlay');
+const modalTitle = document.getElementById('modalTitle');
+let editingLeadId = null;
+
+function openModal(id){
+  editingLeadId = id || null;
+  if(editingLeadId){
+    const l = leads.find(x => x.id === editingLeadId);
+    modalTitle.textContent = 'Edit lead';
+    document.getElementById('f_name').value = l.name || '';
+    document.getElementById('f_category').value = l.category || 'Plumber';
+    document.getElementById('f_locality').value = l.locality || 'Brisbane CBD';
+    document.getElementById('f_address').value = l.address || '';
+    document.getElementById('f_phone').value = l.phone || '';
+    document.getElementById('f_rating').value = l.rating || '';
+  }else{
+    modalTitle.textContent = 'Add a lead';
+    ['f_name','f_address','f_phone','f_rating'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('f_category').value = 'Plumber';
+    document.getElementById('f_locality').value = 'Brisbane CBD';
+  }
+  modalOverlay.classList.add('open');
+}
+function closeModal(){
+  modalOverlay.classList.remove('open');
+  editingLeadId = null;
+}
+
+document.getElementById('btnAdd').addEventListener('click', () => openModal(null));
+document.getElementById('f_cancel').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) closeModal(); });
+
+document.getElementById('f_save').addEventListener('click', async () => {
+  const name = document.getElementById('f_name').value.trim();
+  if(!name) return;
+  const payload = {
+    name,
+    category: document.getElementById('f_category').value,
+    locality: document.getElementById('f_locality').value,
+    address: document.getElementById('f_address').value.trim(),
+    phone: document.getElementById('f_phone').value.trim(),
+    rating: parseFloat(document.getElementById('f_rating').value) || null,
+  };
+
+  try{
+    if(editingLeadId){
+      await apiUpdateLead(editingLeadId, payload);
+    }else{
+      await apiCreateLead(payload);
+    }
+    closeModal();
+    await renderAll();
+  }catch(err){
+    alert('Could not save lead. Check your connection and try again.');
+  }
+});
+
+function exportCsv(){
+  const headers = ["Business Name","Category","Locality","Address","Phone","Rating","Reviews","No Website Confirmed","Status","Assigned To","Notes","Added"];
+  const rows = leads.map(l => [
+    l.name, l.category, l.locality||'', l.address, l.phone, l.rating||'', l.reviews||'',
+    l.noWebsite ? "Yes" : "No", l.status, l.assignedTo||'', (l.notes||'').replace(/\n/g,' '), l.createdAt||''
+  ]);
+  const csv = [headers, ...rows].map(r =>
+    r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')
+  ).join('\r\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'qld_trade_leads.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+document.getElementById('btnExportTop').addEventListener('click', exportCsv);
+document.getElementById('navExport').addEventListener('click', exportCsv);
+
+document.getElementById('navReset').addEventListener('click', async () => {
+  if(confirm('Reset to the original lead list? This clears any edits.')){
+    try{
+      await fetch(API_BASE + '/reset', { method: 'POST' });
+      await renderAll();
+    }catch(err){
+      alert('Could not reset leads. Check your connection and try again.');
+    }
+  }
+});
+
+/* ================= USERS (Super Admin, Agent) ================= */
+let editingUserId = null;
+const userModalOverlay = document.getElementById('userModalOverlay');
+const userModalTitle = document.getElementById('userModalTitle');
+
+let usersCache = [];
+
+async function loadUsersCache(){
+  try{
+    const res = await fetch('/api/users');
+    usersCache = await res.json();
+  }catch(e){
+    usersCache = [];
+  }
+  return usersCache;
+}
+
+async function renderUsers(){
+  await loadUsersCache();
+  const accounts = usersCache;
+  if(!accounts.length){
+    document.getElementById('usersTbody').innerHTML = '<tr><td colspan="5">Could not load users.</td></tr>';
+    return;
+  }
+
+  const tbody = document.getElementById('usersTbody');
+  tbody.innerHTML = accounts.map(a => `
+    <tr>
+      <td>${escapeHtml(a.id)}</td>
+      <td class="biz-name">${escapeHtml(a.username)}</td>
+      <td><span class="cat-pill">${escapeHtml(a.role)}</span></td>
+      <td>${escapeHtml(a.email || '—')}</td>
+      <td>
+        <div class="row-actions">
+          <button class="icon-btn" data-role="edituser" data-id="${a.id}" title="Edit user">&#9998;</button>
+          <button class="icon-btn danger" data-role="deleteuser" data-id="${a.id}" title="Remove user">&times;</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+
+  tbody.querySelectorAll('[data-role="edituser"]').forEach(btn => {
+    btn.addEventListener('click', () => openUserModal(btn.dataset.id));
+  });
+  tbody.querySelectorAll('[data-role="deleteuser"]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      if(usersCache.length <= 1){ alert("Can't remove the last remaining user."); return; }
+      if(btn.dataset.id === currentUser.id){ alert("You can't remove the account you're logged in as."); return; }
+      if(!confirm('Remove this user?')) return;
+      try{
+        await fetch('/api/users?id=' + encodeURIComponent(btn.dataset.id), { method: 'DELETE' });
+        await renderUsers();
+      }catch(e){ alert('Could not remove user.'); }
+    });
+  });
+}
+
+function openUserModal(userId){
+  editingUserId = userId || null;
+  document.getElementById('u_password').value = '';
+  if(editingUserId){
+    const u = usersCache.find(a => a.id === editingUserId);
+    userModalTitle.textContent = 'Edit user';
+    document.getElementById('u_username').value = u.username;
+    document.getElementById('u_email').value = u.email || '';
+    document.getElementById('u_role').value = u.role;
+  }else{
+    userModalTitle.textContent = 'Add a user';
+    document.getElementById('u_username').value = '';
+    document.getElementById('u_email').value = '';
+    document.getElementById('u_role').value = 'Agent';
+  }
+  userModalOverlay.classList.add('open');
+}
+function closeUserModal(){
+  userModalOverlay.classList.remove('open');
+  editingUserId = null;
+}
+
+document.getElementById('btnAddUser').addEventListener('click', () => openUserModal(null));
+document.getElementById('u_cancel').addEventListener('click', closeUserModal);
+userModalOverlay.addEventListener('click', (e) => { if(e.target === userModalOverlay) closeUserModal(); });
+
+document.getElementById('u_save').addEventListener('click', async () => {
+  const username = document.getElementById('u_username').value.trim();
+  const email = document.getElementById('u_email').value.trim();
+  const role = document.getElementById('u_role').value;
+  const password = document.getElementById('u_password').value;
+  if(!username){ return; }
+
+  try{
+    let res, data;
+    if(editingUserId){
+      res = await fetch('/api/users', {
+        method: 'PUT', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ id: editingUserId, username, email, role, password: password || undefined })
+      });
+    }else{
+      res = await fetch('/api/users', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ username, email, role, password: password || undefined })
+      });
+    }
+    data = await res.json();
+    if(!res.ok){ alert(data.error || 'Could not save user.'); return; }
+    if(editingUserId && currentUser.id === editingUserId){
+      currentUser = data;
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+    }
+    closeUserModal();
+    await renderUsers();
+    applyRoleUI();
+  }catch(e){
+    alert('Could not save user.');
+  }
+});
+
+initAuth();
+</script>
+</body>
+</html>
