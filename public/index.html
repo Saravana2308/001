@@ -44,10 +44,10 @@
   .topnav{
     display:flex;
     align-items:center;
-    gap:24px;
+    gap:16px;
     background:#FFFFFF;
     border-bottom:1px solid var(--border);
-    padding:14px 32px;
+    padding:10px 24px;
     position:sticky;
     top:0;
     z-index:20;
@@ -146,7 +146,7 @@
   .action-btn:hover{border-color:var(--orange);color:var(--orange-darker);}
 
   /* ---------- MAIN ---------- */
-  main{padding:32px 40px 60px;max-width:1280px;margin:0 auto;}
+  main{padding:20px 24px 36px;max-width:1280px;margin:0 auto;}
   .view{display:none;}
   .view.active{display:block;}
 
@@ -154,52 +154,52 @@
     display:flex;
     align-items:flex-start;
     justify-content:space-between;
-    gap:24px;
-    margin-bottom:28px;
+    gap:16px;
+    margin-bottom:16px;
     flex-wrap:wrap;
   }
   .topbar h2{
     font-family:var(--font-head);
     font-weight:600;
-    font-size:30px;
-    margin:0 0 4px;
+    font-size:22px;
+    margin:0 0 2px;
     color:var(--ink);
   }
-  .topbar p{margin:0;color:var(--muted);font-size:14px;}
+  .topbar p{margin:0;color:var(--muted);font-size:12.5px;}
 
   .btn{
     font-family:var(--font-body);
     font-weight:600;
-    font-size:14px;
-    padding:10px 18px;
-    border-radius:8px;
+    font-size:13px;
+    padding:7px 14px;
+    border-radius:7px;
     border:1px solid transparent;
     cursor:pointer;
     display:inline-flex;
     align-items:center;
-    gap:8px;
+    gap:6px;
   }
   .btn-amber{background:var(--orange);color:#FFFFFF;}
   .btn-amber:hover{background:var(--orange-dark);}
   .btn-ghost{background:transparent;border-color:var(--border);color:var(--text);}
   .btn-ghost:hover{border-color:var(--orange);color:var(--orange-darker);}
-  .btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;}
 
   .stat-cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:14px;
-    margin-bottom:28px;
+    grid-template-columns:repeat(auto-fit,minmax(125px,1fr));
+    gap:10px;
+    margin-bottom:16px;
   }
   .stat-card{
     background:var(--card);
     border:1px solid var(--border);
     border-left:3px solid var(--orange);
-    border-radius:var(--radius);
-    padding:16px 18px;
+    border-radius:8px;
+    padding:10px 12px;
   }
-  .stat-card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-  .stat-card .value{font-family:var(--font-head);font-size:32px;font-weight:600;margin-top:4px;color:var(--ink);}
+  .stat-card .label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;}
+  .stat-card .value{font-family:var(--font-head);font-size:23px;font-weight:600;margin-top:2px;color:var(--ink);}
   .stat-card .value.amber{color:var(--orange-dark);}
   .stat-card .value.teal{color:var(--orange-darker);}
   .stat-card .value.danger{color:var(--muted);}
@@ -207,20 +207,20 @@
   .chart-grid{
     display:grid;
     grid-template-columns:1.3fr 1fr;
-    gap:16px;
-    margin-bottom:16px;
+    gap:10px;
+    margin-bottom:10px;
   }
   @media (max-width:960px){ .chart-grid{grid-template-columns:1fr;} }
   .chart-card{
     background:var(--card);
     border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:20px;
+    border-radius:8px;
+    padding:14px;
   }
   .chart-card h3{
-    font-family:var(--font-head);font-weight:600;font-size:18px;margin:0 0 14px;color:var(--ink);
+    font-family:var(--font-head);font-weight:600;font-size:15px;margin:0 0 8px;color:var(--ink);
   }
-  .chart-card .canvas-wrap{position:relative;height:230px;}
+  .chart-card .canvas-wrap{position:relative;height:180px;}
 
   .recent-list{list-style:none;margin:0;padding:0;}
   .recent-list li{
@@ -234,99 +234,99 @@
 
   .toolbar{
     display:flex;
-    gap:12px;
+    gap:8px;
     flex-wrap:wrap;
-    margin-bottom:16px;
+    margin-bottom:12px;
     align-items:center;
   }
   .search-box{
     flex:1;
-    min-width:200px;
+    min-width:180px;
     position:relative;
   }
   .search-box input{
     width:100%;
-    padding:10px 14px 10px 36px;
-    border-radius:8px;
+    padding:7px 12px 7px 32px;
+    border-radius:7px;
     border:1px solid var(--border);
     background:var(--card);
     color:var(--text);
     font-family:var(--font-body);
-    font-size:14px;
+    font-size:13px;
   }
   .search-box::before{
     content:"";
-    position:absolute;left:12px;top:50%;transform:translateY(-50%);
-    width:14px;height:14px;
+    position:absolute;left:11px;top:50%;transform:translateY(-50%);
+    width:12px;height:12px;
     border:2px solid var(--muted);
     border-radius:50%;
   }
   .search-box::after{
     content:"";
-    position:absolute;left:21px;top:calc(50% + 6px);
-    width:6px;height:2px;
+    position:absolute;left:19px;top:calc(50% + 5px);
+    width:5px;height:2px;
     background:var(--muted);
     transform:rotate(45deg);
   }
   select, .select{
-    padding:10px 12px;
-    border-radius:8px;
+    padding:7px 10px;
+    border-radius:7px;
     border:1px solid var(--border);
     background:var(--card);
     color:var(--text);
     font-family:var(--font-body);
-    font-size:14px;
+    font-size:13px;
   }
 
   .table-wrap{
     background:var(--card);
     border:1px solid var(--border);
-    border-radius:var(--radius);
+    border-radius:8px;
     overflow:auto;
   }
-  table{width:100%;border-collapse:collapse;font-size:14px;min-width:1040px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:1080px;}
   thead th{
     text-align:left;
     font-family:var(--font-head);
     font-weight:600;
-    font-size:13px;
+    font-size:11.5px;
     letter-spacing:0.02em;
     color:var(--muted);
-    padding:14px 16px;
+    padding:9px 12px;
     border-bottom:1px solid var(--border);
     background:var(--card);
     position:sticky;top:0;
     white-space:nowrap;
   }
   tbody td{
-    padding:12px 16px;
+    padding:7px 12px;
     border-bottom:1px solid var(--border);
-    vertical-align:top;
+    vertical-align:middle;
   }
   tbody tr:last-child td{border-bottom:none;}
   tbody tr:hover{background:var(--orange-pale);}
-  .biz-name{font-weight:600;color:var(--ink);}
-  .biz-addr{color:var(--muted);font-size:12.5px;margin-top:2px;}
-  .rating{white-space:nowrap;}
+  .biz-name{font-weight:600;color:var(--ink);font-size:13px;}
+  .biz-addr{color:var(--muted);font-size:11.5px;margin-top:1px;}
+  .rating{white-space:nowrap;font-size:12.5px;}
   .rating .stars{color:var(--orange);}
   .cat-pill{
     display:inline-block;
-    padding:3px 10px;
+    padding:2px 8px;
     border-radius:100px;
-    font-size:12px;
+    font-size:11px;
     font-weight:600;
     background:var(--bg-alt);
     border:1px solid var(--border);
     color:var(--ink);
     white-space:nowrap;
   }
-  .region-tag{font-size:12px;color:var(--muted);white-space:nowrap;}
+  .region-tag{font-size:11.5px;color:var(--muted);white-space:nowrap;}
 
   .status-select{
     font-family:var(--font-body);
     font-weight:600;
-    font-size:12.5px;
-    padding:6px 10px;
+    font-size:11.5px;
+    padding:4px 8px;
     border-radius:100px;
     border:1px solid transparent;
     cursor:pointer;
@@ -337,34 +337,41 @@
   .status-Won{background:var(--orange);color:#FFFFFF;}
   .status-Lost{background:#EFEAE5;color:#A69C92;}
 
+  .assignee-select{
+    font-size:12px;
+    padding:4px 8px;
+    border-radius:7px;
+    max-width:140px;
+  }
+
   .notes-input{
-    width:160px;
+    width:130px;
     border:1px solid transparent;
     background:transparent;
     color:var(--text);
     font-family:var(--font-body);
-    font-size:13px;
-    padding:6px 8px;
+    font-size:12.5px;
+    padding:4px 7px;
     border-radius:6px;
     resize:vertical;
-    min-height:32px;
+    min-height:28px;
   }
   .notes-input:hover, .notes-input:focus{border-color:var(--border);background:var(--bg-alt);}
 
   .nowebsite-toggle{
-    display:flex;align-items:center;gap:6px;
-    cursor:pointer;font-size:12.5px;color:var(--muted);
+    display:flex;align-items:center;gap:5px;
+    cursor:pointer;font-size:11.5px;color:var(--muted);
     white-space:nowrap;
   }
   .nowebsite-toggle input{accent-color:var(--orange);}
 
-  .phone-link{color:var(--text);text-decoration:none;}
+  .phone-link{color:var(--text);text-decoration:none;font-size:12.5px;}
   .phone-link:hover{color:var(--orange-dark);}
 
-  .row-actions{display:flex;gap:2px;}
+  .row-actions{display:flex;gap:1px;}
   .icon-btn{
     background:none;border:none;cursor:pointer;color:var(--muted);
-    font-size:15px;padding:5px 7px;border-radius:6px;
+    font-size:13.5px;padding:3px 5px;border-radius:6px;
   }
   .icon-btn:hover{color:var(--orange-dark);background:var(--orange-pale);}
   .icon-btn.danger:hover{color:#A63B00;background:#FBEAE0;}
@@ -638,6 +645,10 @@
         <option value="Quoted">Quoted</option>
         <option value="Won">Won</option>
         <option value="Lost">Lost</option>
+      </select>
+      <select id="assigneeFilter">
+        <option value="">All users</option>
+        <option value="__unassigned">Unassigned</option>
       </select>
     </div>
 
@@ -929,14 +940,23 @@ const searchInput = document.getElementById('searchInput');
 const categoryFilter = document.getElementById('categoryFilter');
 const localityFilter = document.getElementById('localityFilter');
 const statusFilter = document.getElementById('statusFilter');
+const assigneeFilter = document.getElementById('assigneeFilter');
 
 function currentFilters(){
   return {
     q: searchInput.value.trim().toLowerCase(),
     cat: categoryFilter.value,
     loc: localityFilter.value,
-    status: statusFilter.value
+    status: statusFilter.value,
+    assignee: assigneeFilter.value
   };
+}
+
+function populateAssigneeFilter(){
+  const current = assigneeFilter.value;
+  assigneeFilter.innerHTML = '<option value="">All users</option><option value="__unassigned">Unassigned</option>'
+    + usersCache.map(u => `<option value="${escapeHtml(u.username)}">${escapeHtml(u.username)} (${escapeHtml(u.role)})</option>`).join('');
+  assigneeFilter.value = current || '';
 }
 
 function escapeHtml(str){
@@ -953,11 +973,13 @@ function timeAgo(iso){
 }
 
 function renderTable(){
-  const {q, cat, loc, status} = currentFilters();
+  const {q, cat, loc, status, assignee} = currentFilters();
   const filtered = leads.filter(l => {
       if(cat && l.category !== cat) return false;
       if(loc && l.locality !== loc) return false;
       if(status && l.status !== status) return false;
+      if(assignee === '__unassigned' && l.assignedTo) return false;
+      if(assignee && assignee !== '__unassigned' && l.assignedTo !== assignee) return false;
       if(q && !(l.name.toLowerCase().includes(q) || l.address.toLowerCase().includes(q))) return false;
       return true;
     });
@@ -990,7 +1012,7 @@ function renderTable(){
         </select>
       </td>
       <td>
-        <select class="select" data-role="assignedTo">
+        <select class="select assignee-select" data-role="assignedTo">
           <option value="" ${!l.assignedTo ? 'selected' : ''}>Unassigned</option>
           ${usersCache.map(u => `<option value="${escapeHtml(u.username)}" ${l.assignedTo===u.username?'selected':''}>${escapeHtml(u.username)} (${escapeHtml(u.role)})</option>`).join('')}
         </select>
@@ -1154,6 +1176,7 @@ function renderDashboard(){
 
 async function renderAll(){
   await Promise.all([loadLeadsFromServer(), loadUsersCache()]);
+  populateAssigneeFilter();
   renderTable();
   renderStatsSidebar();
   renderDashboard();
@@ -1163,6 +1186,7 @@ searchInput.addEventListener('input', renderTable);
 categoryFilter.addEventListener('change', renderTable);
 localityFilter.addEventListener('change', renderTable);
 statusFilter.addEventListener('change', renderTable);
+assigneeFilter.addEventListener('change', renderTable);
 
 const modalOverlay = document.getElementById('modalOverlay');
 const modalTitle = document.getElementById('modalTitle');
@@ -1273,6 +1297,7 @@ async function loadUsersCache(){
 
 async function renderUsers(){
   await loadUsersCache();
+  populateAssigneeFilter();
   const accounts = usersCache;
   if(!accounts.length){
     document.getElementById('usersTbody').innerHTML = '<tr><td colspan="5">Could not load users.</td></tr>';
