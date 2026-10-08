@@ -15,7 +15,7 @@
   },
   "crons": [
     {
-      "path": "/api/cron-refresh-leads",
+      "path": "api/cron-refresh-leads",
       "schedule": "30 19 * * *"
     }
   ]
