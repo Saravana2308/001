@@ -1,25 +1,38 @@
 # Lead Generator (Lead Tools)
 
-A lead management dashboard - Dashboard with charts, full CRUD on leads,
-role-based Users management (Super Admin / Agent) - backed by a real API
-instead of the browser's local storage.
+A sales-prospecting dashboard: describe your ideal customer in plain
+English (or use structured filters), generate real scored prospects from
+Google Places, manage them through a full CRUD pipeline, with role-based
+Users (Super Admin / Agent), saved searches, and an automatic 48-hour
+refresh job - all backed by a real API instead of the browser's local
+storage.
 
 ## Project structure
 
 ```
 lead-generator/
 ├── api/
-│   ├── leads.js     GET/POST/PUT/DELETE  - lead records
-│   ├── users.js     GET/POST/PUT/DELETE  - user accounts (Super Admin/Agent)
-│   ├── login.js     POST                 - checks username/password
-│   └── reset.js     POST                 - restores leads to the seed data
+│   ├── leads.js             GET/POST/PUT/DELETE - lead/prospect records
+│   ├── users.js              GET/POST/PUT/DELETE - user accounts (Super Admin/Agent)
+│   ├── login.js               POST - checks username/password
+│   ├── reset.js                POST - restores leads to the seed data
+│   ├── generate-leads.js      POST - the Find Leads engine (ICP -> real prospects, scored)
+│   ├── searches.js            GET/POST/DELETE - saved searches
+│   ├── cron-refresh-leads.js  POST (cron) - auto-refresh, every 48h
+│   └── cron-status.js         GET - status for the dashboard sync badge
 ├── lib/
-│   └── db.js        storage layer (Vercel KV, with in-memory fallback)
+│   ├── db.js        storage layer (Vercel KV, with in-memory fallback)
+│   ├── places.js     shared Google Places API (New) search helper
+│   └── scoring.js    transparent 0-100 lead scoring engine
 ├── data/
-│   ├── leads.seed.json   the 269 real leads gathered so far
-│   └── users.seed.json   default Super Admin + Agent accounts
+│   ├── leads.seed.json     the 269 real leads gathered so far
+│   ├── users.seed.json     default Super Admin + Agent accounts
+│   ├── regions.json         category/locality combos the cron job rotates through
+│   ├── industries.json      industry list + search keywords + default titles
+│   └── locations.json       Australian state/city/suburb reference data
 ├── public/
-│   └── index.html   the whole front-end (one file, no build step)
+│   ├── index.html   the whole front-end (one file, no build step)
+│   └── data/         copies of industries.json/locations.json served statically
 ├── package.json
 ├── vercel.json
 └── .gitignore
@@ -125,6 +138,158 @@ vercel dev
 production behavior (including reading local `.env` if you want to test
 against a real KV instance from your machine too - copy the KV env vars
 into a `.env.local` file for that).
+
+## Automatic lead refresh (every 48 hours, 1:00 AM IST)
+
+`api/cron-refresh-leads.js` automatically searches for new leads and adds
+any it hasn't seen before (deduped by name + address), rotating through
+every category/locality combination in `data/regions.json` a batch at a
+time.
+
+**How the schedule actually works:** Vercel Cron on the free Hobby plan can
+only trigger a job once per day, not every 48 hours directly. So the cron
+fires daily at **19:30 UTC = 1:00 AM IST** (`vercel.json` → `"schedule":
+"30 19 * * *"`), but the function itself checks how long it's been since
+its last real run and skips (returns `{skipped: true}`) if it's been less
+than 48 hours. Net effect: it actually executes every 48 hours, on a plan
+tier that only allows daily triggers.
+
+**Required setup - this will NOT fetch real leads without it:**
+
+1. Get a Google Cloud API key with the **Places API (New)** enabled and
+   billing turned on (Google requires a billing account even within the
+   free monthly quota: https://console.cloud.google.com/apis/library -
+   search "Places API (New)").
+2. In Vercel → your project → Settings → Environment Variables, add:
+   - `GOOGLE_PLACES_API_KEY` = your key
+   - `CRON_SECRET` = any random string you generate (e.g. `openssl rand
+     -hex 32`). Vercel automatically sends this as a Bearer token when it
+     triggers the cron, and the function checks it - this stops anyone
+     else from hitting the endpoint and running up charges on your key.
+3. Redeploy so the new env vars take effect.
+
+**Without `GOOGLE_PLACES_API_KEY` set:** the job will run on schedule but
+every region search will fail with a clear error in the response/logs -
+nothing breaks, it just won't add anything. I could not test the actual
+Google Places API calls myself (no network access in my build
+environment) - test it manually once deployed (see below) before trusting
+it to run unattended.
+
+**Testing it manually without waiting for the schedule:**
+```bash
+curl -X POST https://<your-app>.vercel.app/api/cron-refresh-leads \
+  -H "Authorization: Bearer <your CRON_SECRET value>"
+```
+Check the JSON response for `leadsAdded` and any `errors`. Run it twice in
+a row - the second call should come back `{"skipped": true, ...}` since
+it won't be 48 hours yet, which confirms the gate is working.
+
+**Costs to be aware of:** Google Places API (New) Text Search is a paid
+API beyond its free monthly credit. 10 regions per run × roughly 15 runs/
+month (every 48h) = ~150 calls/month - check current Google pricing before
+leaving this running long-term, and set a budget alert on the Google Cloud
+project.
+
+## Find Leads - how it actually works
+
+The "Find Leads" page lets you describe your ideal customer in a text box
+("Find dental clinics in Brisbane with 5-50 employees, I want the owner or
+practice manager") or use the structured filters directly. Here's exactly
+what's real and what isn't, because this is the part most likely to be
+over-trusted if left unclear:
+
+**Real:**
+- Company name, address, phone, website, rating, review count - all live
+  from Google Places (when `GOOGLE_PLACES_API_KEY` is set)
+- Lead scoring (0-100, Hot/High Priority/Good/Medium/Low) - a transparent
+  rule-based formula in `lib/scoring.js`, not a black box. Every point is
+  traceable to a real field (has phone, has website, rating, review count).
+  The "Why this lead?" text in the detail panel is generated from the same
+  real signals, every time.
+- Minimum rating / minimum reviews / phone-required / website-required
+  filters - these genuinely filter against real Places data.
+
+**Pattern-matching, not a connected AI model:**
+- The "Generate ICP with AI" box does rule-based keyword/regex matching
+  (industry keywords, known AU suburbs, "N-M employees" patterns, job-title
+  keywords) against `data/industries.json` and `data/locations.json` - it's
+  genuinely useful for the common cases the spec described, but it is
+  **not** calling an LLM. The UI says this explicitly so it's never
+  mistaken for more than it is. If you want true natural-language
+  understanding later, this is the function to swap for a real LLM API call
+  (e.g. the Claude API) - `parseICPFromText()` in `public/index.html`.
+
+**Deliberately absent, not faked:**
+- **No contact names, emails, or LinkedIn profiles.** Google Places (and
+  no legitimate business-data API) returns owner/manager names or personal
+  emails. The "Decision Maker / Job Title" filter records *who you want to
+  reach* as a target, and the detail panel labels it "not confirmed" - it
+  never invents a person's name to fill the field. Checking "Verified Email
+  Required" or "LinkedIn Required" returns zero results with an explanation
+  rather than fabricating matches. Real contact-level enrichment would need
+  a separate provider (Apollo, Hunter.io, ZoomInfo, Clearbit) wired into
+  `api/generate-leads.js` - a well-scoped next step, not done here.
+- **No company size, revenue, or technology-stack data.** Places doesn't
+  report employee counts or firmographics, so company size is recorded as
+  what you're *targeting*, never presented as a verified fact about a
+  specific business. The "More Filters" section only exposes filters
+  actually backed by real data (rating, reviews, keywords) rather than
+  showing a longer list of filters that silently do nothing.
+
+## Scope: what this build explicitly leaves out
+
+The original spec described a full sales-intelligence SaaS platform
+(33 sections: campaigns, CRM sync, a multi-chart analytics suite, duplicate
+detection, onboarding wizard, mobile card view, and more). Building all of
+that in one pass - especially the parts needing real external
+integrations I have no credentials for - would have meant a lot of
+half-working scaffolding. Built instead, for real:
+
+- Find Leads (ICP prompt + structured filters) → real scored prospects
+- Lead scoring + "why this lead" + detail panel with draft outreach copy
+- Prospects/Leads table (existing CRUD, now with a Score column)
+- Saved Searches (save, list, run again, delete)
+- Automatic 48-hour refresh + dashboard sync status badge
+
+**Not built - would need real integrations or significant further work:**
+- Email campaign **sending** (SMTP/SendGrid-type provider not connected -
+  building the compose/review UI without real sending would be a product
+  that silently can't do its one job)
+- CRM sync (HubSpot/Salesforce/Zoho/Pipedrive - all need OAuth app
+  registration + credentials)
+- The full analytics chart suite (funnel, open rate, campaign performance -
+  most of these need campaign/email data that doesn't exist yet)
+- Duplicate-detection UI, first-time onboarding wizard, mobile card layout
+- Excel export (CSV export already works; Excel is a quick follow-up)
+
+Happy to build any of these next - just say which, and whether you have
+credentials for the relevant service (email provider, CRM) ready to go.
+
+
+## Feature overview (AI prospecting platform)
+
+| Area | What it does | Real or limited? |
+|---|---|---|
+| Dashboard | Total / New / Qualified / Hot leads, Verified Emails, Appointments, Conversion Rate, charts, sync status | Real, from your lead data |
+| Find Leads | Describe your customer in plain English, or fill structured filters; ICP is parsed, shown for confirmation, then leads are generated | Parsing is **rule-based pattern matching**, not an LLM. Lead generation uses the **Google Places API** (needs `GOOGLE_PLACES_API_KEY`) |
+| Lead scoring | 0-100 score with Hot / High Priority / Good / Medium / Low bands and a "why this lead" explanation | Real logic, based on signals actually available (phone, website, rating, reviews, match) |
+| Leads table | Filters (category, locality, status, user, score, date added), bulk select, bulk status change, bulk delete, CSV + Excel export (all / selected / hot / high-quality), detail side panel with draft email, opening line and call script | Real |
+| Duplicate detection | Prompts Keep Existing / Replace / Merge / Add Anyway when adding a matching lead | Real |
+| Smart suggestions | Suggests decision-maker titles and search terms for the chosen industry (never auto-applied) | Rule-based |
+| Saved Searches | Save, run again, delete | Real |
+| Campaigns | Draft emails with merge fields, 6 angles, 3 follow-ups with delays, preview | **Draft-only. No email is ever sent.** Needs an email provider (SendGrid, Postmark, SMTP) to become real |
+| CRM | Field mapping + CSV export formatted for HubSpot / Salesforce / Zoho / Pipedrive import | **No live sync.** Real connectors need an OAuth app registered with each CRM |
+| Analytics | Leads over time, quality distribution, industry and location performance | Real. Email open/reply/funnel charts are intentionally empty until sending is connected, so no numbers are invented |
+| Settings | Integration status, Do Not Contact list, privacy / terms placeholders | Policy text is placeholder, **not legal advice** |
+| Onboarding | 4-question guided start for brand-new (empty) accounts | Real |
+
+### What is deliberately NOT faked
+- **Contact names, personal emails and LinkedIn profiles are not generated.** Google Places returns company-level data only, and inventing a person's name or email for a real business would be misleading. The Email column shows "Not available" until you connect an enrichment provider (e.g. Apollo, Hunter, ZoomInfo).
+- **Verification badges only claim what is true**: nothing is labelled "Verified" unless a real check set it.
+- The "AI" in this app is rule-based. To use a real LLM for ICP parsing or email writing, add an LLM API key and call it from a new serverless function.
+
+### Extra API routes
+`/api/generate-leads`, `/api/searches`, `/api/campaigns`, `/api/opt-outs`, `/api/settings-status`, `/api/cron-status`, `/api/cron-refresh-leads`
 
 ## What's NOT included (be aware)
 

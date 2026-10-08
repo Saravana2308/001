@@ -1,0 +1,242 @@
+[
+  {
+    "category": "Air Conditioning",
+    "locality": "Ipswich",
+    "state": "Queensland",
+    "query": "Air Conditioning in Ipswich, Queensland"
+  },
+  {
+    "category": "Air Conditioning",
+    "locality": "Toowoomba",
+    "state": "Queensland",
+    "query": "Air Conditioning in Toowoomba, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Brisbane CBD",
+    "state": "Queensland",
+    "query": "Builder in Brisbane CBD, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Ipswich",
+    "state": "Queensland",
+    "query": "Builder in Ipswich, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Toowoomba",
+    "state": "Queensland",
+    "query": "Builder in Toowoomba, Queensland"
+  },
+  {
+    "category": "Carpenter",
+    "locality": "Brisbane CBD",
+    "state": "Queensland",
+    "query": "Carpenter in Brisbane CBD, Queensland"
+  },
+  {
+    "category": "Carpenter",
+    "locality": "Ipswich",
+    "state": "Queensland",
+    "query": "Carpenter in Ipswich, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Brisbane CBD",
+    "state": "Queensland",
+    "query": "Electrician in Brisbane CBD, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Gold Coast",
+    "state": "Queensland",
+    "query": "Electrician in Gold Coast, Queensland"
+  },
+  {
+    "category": "Landscaper",
+    "locality": "Brisbane CBD",
+    "state": "Queensland",
+    "query": "Landscaper in Brisbane CBD, Queensland"
+  },
+  {
+    "category": "Landscaper",
+    "locality": "Ipswich",
+    "state": "Queensland",
+    "query": "Landscaper in Ipswich, Queensland"
+  },
+  {
+    "category": "Landscaper",
+    "locality": "Toowoomba",
+    "state": "Queensland",
+    "query": "Landscaper in Toowoomba, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Acacia Ridge",
+    "state": "Queensland",
+    "query": "Mechanic in Acacia Ridge, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Archerfield",
+    "state": "Queensland",
+    "query": "Mechanic in Archerfield, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Caboolture",
+    "state": "Queensland",
+    "query": "Mechanic in Caboolture, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Capalaba",
+    "state": "Queensland",
+    "query": "Mechanic in Capalaba, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Cleveland",
+    "state": "Queensland",
+    "query": "Mechanic in Cleveland, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Coopers Plains",
+    "state": "Queensland",
+    "query": "Mechanic in Coopers Plains, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Geebung",
+    "state": "Queensland",
+    "query": "Mechanic in Geebung, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Hoppers Crossing",
+    "state": "Victoria",
+    "query": "Mechanic in Hoppers Crossing, Victoria"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Laverton",
+    "state": "Victoria",
+    "query": "Mechanic in Laverton, Victoria"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Moorooka",
+    "state": "Queensland",
+    "query": "Mechanic in Moorooka, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Point Cook",
+    "state": "Victoria",
+    "query": "Mechanic in Point Cook, Victoria"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Rocklea",
+    "state": "Queensland",
+    "query": "Mechanic in Rocklea, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Salisbury",
+    "state": "Queensland",
+    "query": "Mechanic in Salisbury, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Sunnybank",
+    "state": "Queensland",
+    "query": "Mechanic in Sunnybank, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Tarneit",
+    "state": "Victoria",
+    "query": "Mechanic in Tarneit, Victoria"
+  },
+  {
+    "category": "Mortgage Broker",
+    "locality": "Hoppers Crossing",
+    "state": "Victoria",
+    "query": "Mortgage Broker in Hoppers Crossing, Victoria"
+  },
+  {
+    "category": "Mortgage Broker",
+    "locality": "Point Cook",
+    "state": "Victoria",
+    "query": "Mortgage Broker in Point Cook, Victoria"
+  },
+  {
+    "category": "Mortgage Broker",
+    "locality": "Tarneit",
+    "state": "Victoria",
+    "query": "Mortgage Broker in Tarneit, Victoria"
+  },
+  {
+    "category": "Mortgage Broker",
+    "locality": "Werribee",
+    "state": "Victoria",
+    "query": "Mortgage Broker in Werribee, Victoria"
+  },
+  {
+    "category": "Mortgage Broker",
+    "locality": "Williams Landing",
+    "state": "Victoria",
+    "query": "Mortgage Broker in Williams Landing, Victoria"
+  },
+  {
+    "category": "Painter",
+    "locality": "Ipswich",
+    "state": "Queensland",
+    "query": "Painter in Ipswich, Queensland"
+  },
+  {
+    "category": "Painter",
+    "locality": "Toowoomba",
+    "state": "Queensland",
+    "query": "Painter in Toowoomba, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Brisbane CBD",
+    "state": "Queensland",
+    "query": "Plumber in Brisbane CBD, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Gold Coast",
+    "state": "Queensland",
+    "query": "Plumber in Gold Coast, Queensland"
+  },
+  {
+    "category": "Pool Services",
+    "locality": "Ipswich",
+    "state": "Queensland",
+    "query": "Pool Services in Ipswich, Queensland"
+  },
+  {
+    "category": "Pool Services",
+    "locality": "Toowoomba",
+    "state": "Queensland",
+    "query": "Pool Services in Toowoomba, Queensland"
+  },
+  {
+    "category": "Roofer",
+    "locality": "Ipswich",
+    "state": "Queensland",
+    "query": "Roofer in Ipswich, Queensland"
+  },
+  {
+    "category": "Roofer",
+    "locality": "Toowoomba",
+    "state": "Queensland",
+    "query": "Roofer in Toowoomba, Queensland"
+  }
+]

@@ -3,6 +3,20 @@
   "functions": {
     "api/**/*.js": {
       "memory": 256
+    },
+    "api/cron-refresh-leads.js": {
+      "memory": 256,
+      "maxDuration": 60
+    },
+    "api/generate-leads.js": {
+      "memory": 256,
+      "maxDuration": 60
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron-refresh-leads",
+      "schedule": "30 19 * * *"
+    }
+  ]
 }
