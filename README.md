@@ -18,11 +18,13 @@ lead-generator/
 │   ├── reset.js                POST - restores leads to the seed data
 │   ├── generate-leads.js      POST - the Find Leads engine (ICP -> real prospects, scored)
 │   ├── searches.js            GET/POST/DELETE - saved searches
+│   ├── web-scrape.js          POST - PRIMARY data scrape: live web search + page reading (Oxylabs Web API)
 │   ├── cron-refresh-leads.js  POST (cron) - auto-refresh, every 48h
 │   └── cron-status.js         GET - status for the dashboard sync badge
 ├── lib/
 │   ├── db.js        storage layer (Vercel KV, with in-memory fallback)
 │   ├── places.js     shared Google Places API (New) search helper
+│   ├── oxylabs.js    Oxylabs Web API client - search + scrape with the documented retry ladder
 │   └── scoring.js    transparent 0-100 lead scoring engine
 ├── data/
 │   ├── leads.seed.json     the 269 real leads gathered so far
@@ -33,6 +35,8 @@ lead-generator/
 ├── public/
 │   ├── index.html   the whole front-end (one file, no build step)
 │   └── data/         copies of industries.json/locations.json served statically
+├── test/
+│   └── oxylabs.test.js  mocked-transport tests for retries + error mapping (npm test)
 ├── package.json
 ├── vercel.json
 └── .gitignore
@@ -298,11 +302,43 @@ credentials for the relevant service (email provider, CRM) ready to go.
 - The "AI" in this app is rule-based. To use a real LLM for ICP parsing or email writing, add an LLM API key and call it from a new serverless function.
 
 ### Extra API routes
-`/api/generate-leads`, `/api/searches`, `/api/campaigns`, `/api/opt-outs`, `/api/settings-status`, `/api/cron-status`, `/api/cron-refresh-leads`
+`/api/generate-leads`, `/api/searches`, `/api/campaigns`, `/api/opt-outs`, `/api/settings-status`, `/api/cron-status`, `/api/cron-refresh-leads`, `/api/web-scrape`
+
+### Oxylabs Web API - primary data scrape
+
+Live web search and page reading come from the **Oxylabs Web API**
+(`https://webapi.oxylabs.io`), integrated in `lib/oxylabs.js` and exposed as
+`POST /api/web-scrape`. The pattern is search -> scrape: one search finds the
+pages, then the top 1-3 are actually read - search snippets are truncated and
+often stale, so nothing is ever answered from them.
+
+- **Setup:** set `OXYLABS_WEB_API_KEY` in the environment (`.env` for
+  `vercel dev` - it is gitignored and must never be committed). Without it,
+  `/api/web-scrape` fails with a clear "key is not set" message.
+  `/api/settings-status` reports `oxylabsWebApiConnected` as a boolean; the
+  key itself is never returned, logged, or embedded in errors.
+- **Endpoints:** `POST /v1/search` (ranked results: title, snippet, URL) and
+  `POST /v1/scrape` (page content as markdown), each with an
+  `Authorization: Bearer` header on every call and a ~120 s client timeout.
+- **Retries:** transport timeouts and `408`/`429`/`5xx` only, exponential
+  backoff with jitter, max 3 attempts. `400`/`401` are never retried: `400`
+  surfaces the failing field name (`errors[].pointer`), `401` stops with a
+  clear message. Success is any `2xx`.
+- **Empty pages:** a scrape that comes back empty or skeletal is retried once
+  with `run_js: true`; if it is still empty and the site is on a country TLD
+  (`.lt` -> `LT`, `.co.uk` -> `GB`, brand-use ccTLDs like `.io`/`.ai`/`.co`/
+  `.me` skipped) it is retried once more with `run_js` + that `location`,
+  then reported as unreadable instead of guessing content.
+- **Reportable failures:** every success and error carries
+  `metadata.request_id`, so any problem can be traced with Oxylabs support.
+- **Tests:** `npm test` runs `test/oxylabs.test.js` against a mocked
+  transport (retry ladder, backoff timing, 400/401/404/5xx mapping, key
+  never leaked) using a dummy key of its own - no real network, no real key.
 
 ## What's NOT included (be aware)
 
-- No automated tests
+- Automated tests cover only the Oxylabs web-scrape client (`npm test`);
+  the rest of the app still has none
 - No CI/CD pipeline beyond Vercel's own git-push-to-deploy
 - No rate limiting or brute-force protection on `/api/login`
 - No HTTPS-only cookie/session - auth state lives in the browser's

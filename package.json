@@ -4,7 +4,8 @@
   "description": "Lead Tools - lead management dashboard with a real backend API, deployable on Vercel.",
   "private": true,
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "vercel dev",
+    "test": "node --test test/"
   },
   "dependencies": {
     "@vercel/kv": "^1.0.1"
