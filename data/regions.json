@@ -19,17 +19,92 @@
   },
   {
     "category": "Builder",
+<<<<<<< HEAD
+=======
+    "locality": "Bundaberg",
+    "state": "Queensland",
+    "query": "Builder in Bundaberg, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Caboolture",
+    "state": "Queensland",
+    "query": "Builder in Caboolture, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Cairns",
+    "state": "Queensland",
+    "query": "Builder in Cairns, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Gladstone",
+    "state": "Queensland",
+    "query": "Builder in Gladstone, Queensland"
+  },
+  {
+    "category": "Builder",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Ipswich",
     "state": "Queensland",
     "query": "Builder in Ipswich, Queensland"
   },
   {
     "category": "Builder",
+<<<<<<< HEAD
+=======
+    "locality": "Logan",
+    "state": "Queensland",
+    "query": "Builder in Logan, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Mackay",
+    "state": "Queensland",
+    "query": "Builder in Mackay, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Redcliffe",
+    "state": "Queensland",
+    "query": "Builder in Redcliffe, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Rockhampton",
+    "state": "Queensland",
+    "query": "Builder in Rockhampton, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Springfield",
+    "state": "Queensland",
+    "query": "Builder in Springfield, Queensland"
+  },
+  {
+    "category": "Builder",
+    "locality": "Sunshine Coast",
+    "state": "Queensland",
+    "query": "Builder in Sunshine Coast, Queensland"
+  },
+  {
+    "category": "Builder",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Toowoomba",
     "state": "Queensland",
     "query": "Builder in Toowoomba, Queensland"
   },
   {
+<<<<<<< HEAD
+=======
+    "category": "Builder",
+    "locality": "Townsville",
+    "state": "Queensland",
+    "query": "Builder in Townsville, Queensland"
+  },
+  {
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "category": "Carpenter",
     "locality": "Brisbane CBD",
     "state": "Queensland",
@@ -49,11 +124,77 @@
   },
   {
     "category": "Electrician",
+<<<<<<< HEAD
+=======
+    "locality": "Bundaberg",
+    "state": "Queensland",
+    "query": "Electrician in Bundaberg, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Cairns",
+    "state": "Queensland",
+    "query": "Electrician in Cairns, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Gladstone",
+    "state": "Queensland",
+    "query": "Electrician in Gladstone, Queensland"
+  },
+  {
+    "category": "Electrician",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Gold Coast",
     "state": "Queensland",
     "query": "Electrician in Gold Coast, Queensland"
   },
   {
+<<<<<<< HEAD
+=======
+    "category": "Electrician",
+    "locality": "Logan",
+    "state": "Queensland",
+    "query": "Electrician in Logan, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Mackay",
+    "state": "Queensland",
+    "query": "Electrician in Mackay, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Redcliffe",
+    "state": "Queensland",
+    "query": "Electrician in Redcliffe, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Rockhampton",
+    "state": "Queensland",
+    "query": "Electrician in Rockhampton, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Springfield",
+    "state": "Queensland",
+    "query": "Electrician in Springfield, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Sunshine Coast",
+    "state": "Queensland",
+    "query": "Electrician in Sunshine Coast, Queensland"
+  },
+  {
+    "category": "Electrician",
+    "locality": "Townsville",
+    "state": "Queensland",
+    "query": "Electrician in Townsville, Queensland"
+  },
+  {
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "category": "Landscaper",
     "locality": "Brisbane CBD",
     "state": "Queensland",
@@ -85,12 +226,30 @@
   },
   {
     "category": "Mechanic",
+<<<<<<< HEAD
+=======
+    "locality": "Bundaberg",
+    "state": "Queensland",
+    "query": "Mechanic in Bundaberg, Queensland"
+  },
+  {
+    "category": "Mechanic",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Caboolture",
     "state": "Queensland",
     "query": "Mechanic in Caboolture, Queensland"
   },
   {
     "category": "Mechanic",
+<<<<<<< HEAD
+=======
+    "locality": "Cairns",
+    "state": "Queensland",
+    "query": "Mechanic in Cairns, Queensland"
+  },
+  {
+    "category": "Mechanic",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Capalaba",
     "state": "Queensland",
     "query": "Mechanic in Capalaba, Queensland"
@@ -115,6 +274,15 @@
   },
   {
     "category": "Mechanic",
+<<<<<<< HEAD
+=======
+    "locality": "Gladstone",
+    "state": "Queensland",
+    "query": "Mechanic in Gladstone, Queensland"
+  },
+  {
+    "category": "Mechanic",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Hoppers Crossing",
     "state": "Victoria",
     "query": "Mechanic in Hoppers Crossing, Victoria"
@@ -127,6 +295,21 @@
   },
   {
     "category": "Mechanic",
+<<<<<<< HEAD
+=======
+    "locality": "Logan",
+    "state": "Queensland",
+    "query": "Mechanic in Logan, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Mackay",
+    "state": "Queensland",
+    "query": "Mechanic in Mackay, Queensland"
+  },
+  {
+    "category": "Mechanic",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Moorooka",
     "state": "Queensland",
     "query": "Mechanic in Moorooka, Queensland"
@@ -139,6 +322,21 @@
   },
   {
     "category": "Mechanic",
+<<<<<<< HEAD
+=======
+    "locality": "Redcliffe",
+    "state": "Queensland",
+    "query": "Mechanic in Redcliffe, Queensland"
+  },
+  {
+    "category": "Mechanic",
+    "locality": "Rockhampton",
+    "state": "Queensland",
+    "query": "Mechanic in Rockhampton, Queensland"
+  },
+  {
+    "category": "Mechanic",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Rocklea",
     "state": "Queensland",
     "query": "Mechanic in Rocklea, Queensland"
@@ -151,17 +349,44 @@
   },
   {
     "category": "Mechanic",
+<<<<<<< HEAD
+=======
+    "locality": "Springfield",
+    "state": "Queensland",
+    "query": "Mechanic in Springfield, Queensland"
+  },
+  {
+    "category": "Mechanic",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Sunnybank",
     "state": "Queensland",
     "query": "Mechanic in Sunnybank, Queensland"
   },
   {
     "category": "Mechanic",
+<<<<<<< HEAD
+=======
+    "locality": "Sunshine Coast",
+    "state": "Queensland",
+    "query": "Mechanic in Sunshine Coast, Queensland"
+  },
+  {
+    "category": "Mechanic",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Tarneit",
     "state": "Victoria",
     "query": "Mechanic in Tarneit, Victoria"
   },
   {
+<<<<<<< HEAD
+=======
+    "category": "Mechanic",
+    "locality": "Townsville",
+    "state": "Queensland",
+    "query": "Mechanic in Townsville, Queensland"
+  },
+  {
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "category": "Mortgage Broker",
     "locality": "Hoppers Crossing",
     "state": "Victoria",
@@ -193,17 +418,86 @@
   },
   {
     "category": "Painter",
+<<<<<<< HEAD
+=======
+    "locality": "Bundaberg",
+    "state": "Queensland",
+    "query": "Painter in Bundaberg, Queensland"
+  },
+  {
+    "category": "Painter",
+    "locality": "Cairns",
+    "state": "Queensland",
+    "query": "Painter in Cairns, Queensland"
+  },
+  {
+    "category": "Painter",
+    "locality": "Gladstone",
+    "state": "Queensland",
+    "query": "Painter in Gladstone, Queensland"
+  },
+  {
+    "category": "Painter",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Ipswich",
     "state": "Queensland",
     "query": "Painter in Ipswich, Queensland"
   },
   {
     "category": "Painter",
+<<<<<<< HEAD
+=======
+    "locality": "Logan",
+    "state": "Queensland",
+    "query": "Painter in Logan, Queensland"
+  },
+  {
+    "category": "Painter",
+    "locality": "Mackay",
+    "state": "Queensland",
+    "query": "Painter in Mackay, Queensland"
+  },
+  {
+    "category": "Painter",
+    "locality": "Redcliffe",
+    "state": "Queensland",
+    "query": "Painter in Redcliffe, Queensland"
+  },
+  {
+    "category": "Painter",
+    "locality": "Rockhampton",
+    "state": "Queensland",
+    "query": "Painter in Rockhampton, Queensland"
+  },
+  {
+    "category": "Painter",
+    "locality": "Springfield",
+    "state": "Queensland",
+    "query": "Painter in Springfield, Queensland"
+  },
+  {
+    "category": "Painter",
+    "locality": "Sunshine Coast",
+    "state": "Queensland",
+    "query": "Painter in Sunshine Coast, Queensland"
+  },
+  {
+    "category": "Painter",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Toowoomba",
     "state": "Queensland",
     "query": "Painter in Toowoomba, Queensland"
   },
   {
+<<<<<<< HEAD
+=======
+    "category": "Painter",
+    "locality": "Townsville",
+    "state": "Queensland",
+    "query": "Painter in Townsville, Queensland"
+  },
+  {
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "category": "Plumber",
     "locality": "Brisbane CBD",
     "state": "Queensland",
@@ -211,11 +505,77 @@
   },
   {
     "category": "Plumber",
+<<<<<<< HEAD
+=======
+    "locality": "Bundaberg",
+    "state": "Queensland",
+    "query": "Plumber in Bundaberg, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Cairns",
+    "state": "Queensland",
+    "query": "Plumber in Cairns, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Gladstone",
+    "state": "Queensland",
+    "query": "Plumber in Gladstone, Queensland"
+  },
+  {
+    "category": "Plumber",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "locality": "Gold Coast",
     "state": "Queensland",
     "query": "Plumber in Gold Coast, Queensland"
   },
   {
+<<<<<<< HEAD
+=======
+    "category": "Plumber",
+    "locality": "Logan",
+    "state": "Queensland",
+    "query": "Plumber in Logan, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Mackay",
+    "state": "Queensland",
+    "query": "Plumber in Mackay, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Redcliffe",
+    "state": "Queensland",
+    "query": "Plumber in Redcliffe, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Rockhampton",
+    "state": "Queensland",
+    "query": "Plumber in Rockhampton, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Springfield",
+    "state": "Queensland",
+    "query": "Plumber in Springfield, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Sunshine Coast",
+    "state": "Queensland",
+    "query": "Plumber in Sunshine Coast, Queensland"
+  },
+  {
+    "category": "Plumber",
+    "locality": "Townsville",
+    "state": "Queensland",
+    "query": "Plumber in Townsville, Queensland"
+  },
+  {
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     "category": "Pool Services",
     "locality": "Ipswich",
     "state": "Queensland",

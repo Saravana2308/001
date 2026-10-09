@@ -12,5 +12,12 @@
     "password": "Agent@123",
     "role": "Agent",
     "email": "agent@leadtools.com"
+  },
+  {
+    "id": "U-003",
+    "username": "john",
+    "password": "Test@1234",
+    "role": "Agent",
+    "email": ""
   }
 ]

@@ -15,7 +15,11 @@
   },
   "crons": [
     {
+<<<<<<< HEAD
       "path": "api/cron-refresh-leads",
+=======
+      "path": "/api/cron-refresh-leads",
+>>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
       "schedule": "30 19 * * *"
     }
   ]
