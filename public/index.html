@@ -1339,15 +1339,12 @@
       <p style="font-size:12px;color:var(--muted);margin:10px 0 0;">Set these up via environment variables in your Vercel project &mdash; see README.md for exact steps.</p>
     </div>
 
-<<<<<<< HEAD
-=======
     <div class="chart-card" style="margin-top:10px;" id="syncSeedCard">
       <h3>Bundled data</h3>
       <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px;">Adds any new leads and default users shipped with this version that aren't in your database yet. Existing leads, statuses, notes and users are never changed or removed.</p>
       <button class="btn btn-amber" id="btnSyncSeed">Load new bundled leads &amp; users</button>
     </div>
 
->>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     <div class="chart-card" style="margin-top:10px;">
       <h3>Your account</h3>
       <div class="settings-row"><span>Signed in as</span><span id="settingsCurrentUser">&mdash;</span></div>
@@ -2330,22 +2327,14 @@ document.getElementById('dupIgnore').addEventListener('click', async () => {
   closeDuplicatePrompt(); closeModal(); await renderAll();
 });
 
-<<<<<<< HEAD
-const EXPORT_HEADERS = ["Business Name","Category","Locality","Address","Phone","Rating","Reviews","Website","Email","Lead Score","Lead Band","Status","Assigned To","Notes","Added"];
-=======
 const EXPORT_HEADERS = ["Business Name","Category","Locality","Address","Phone","Rating","Reviews","Website","Email","Lead Score","Lead Band","Status","Assigned To","Notes","Added","Opening Hours","Google Price Level","Also Listed As","Google Maps URL","Source"];
->>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
 function exportRowFor(l){
   const sc = getLeadScore(l);
   return [
     l.name, l.category, l.locality||'', l.address, l.phone||'', l.rating||'', l.reviews||'',
     l.website || (l.noWebsite ? 'No website confirmed' : ''), l.email||'',
-<<<<<<< HEAD
-    sc.score, sc.band, l.status, l.assignedTo||'', (l.notes||'').replace(/\n/g,' '), l.createdAt||''
-=======
     sc.score, sc.band, l.status, l.assignedTo||'', (l.notes||'').replace(/\n/g,' '), l.createdAt||'',
     l.hours||'', l.priceLevel||'', (l.alsoListedAs||[]).join('; '), l.mapsUrl||'', l.source||''
->>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
   ];
 }
 
@@ -3034,11 +3023,6 @@ function openDetailPanel(lead){
 
     <div class="detail-row"><span class="dl">Lead Score</span><span class="dv"><span class="score-badge ${bandClass(sc.band)}">${sc.score} &middot; ${escapeHtml(sc.band)}</span></span></div>
     <div class="detail-row"><span class="dl">Address</span><span class="dv">${escapeHtml(lead.address||'\u2014')}</span></div>
-<<<<<<< HEAD
-    <div class="detail-row"><span class="dl">Company</span><span class="dv">${lead.source === 'generate' ? '<span class="vbadge vb-ok">\u2713 Listed on Google Places</span>' : '<span class="vbadge vb-warn">\u26a0 Source not recorded</span>'}</span></div>
-    <div class="detail-row"><span class="dl">Email</span><span class="dv">${lead.email ? `${escapeHtml(lead.email)} ` + (lead.emailStatus === 'verified' ? '<span class="vbadge vb-ok">\u2713 Verified</span>' : lead.emailStatus === 'invalid' ? '<span class="vbadge vb-bad">\u2715 Invalid</span>' : '<span class="vbadge vb-warn">\u26a0 Unverified</span>') : '<span class="vbadge vb-none">Not available &mdash; email enrichment isn\'t connected</span>'}</span></div>
-    <div class="detail-row"><span class="dl">Phone</span><span class="dv">${escapeHtml(lead.phone||'\u2014')} ${lead.phone ? '<span class="vbadge vb-warn">\u26a0 Unverified</span>' : ''}</span></div>
-=======
     <div class="detail-row"><span class="dl">Company</span><span class="dv">${(lead.source === 'generate' || lead.source === 'google-places') ? '<span class="vbadge vb-ok">\u2713 Listed on Google Places</span>' : lead.source === 'yellowpages.com.au' ? '<span class="vbadge vb-ok">\u2713 Listed on Yellow Pages</span>' : '<span class="vbadge vb-warn">\u26a0 Source not recorded</span>'}</span></div>
     <div class="detail-row"><span class="dl">Email</span><span class="dv">${lead.email ? `${escapeHtml(lead.email)} ` + (lead.emailStatus === 'verified' ? '<span class="vbadge vb-ok">\u2713 Verified</span>' : lead.emailStatus === 'invalid' ? '<span class="vbadge vb-bad">\u2715 Invalid</span>' : '<span class="vbadge vb-warn">\u26a0 Unverified</span>') : '<span class="vbadge vb-none">Not available &mdash; email enrichment isn\'t connected</span>'}</span></div>
     <div class="detail-row"><span class="dl">Phone</span><span class="dv">${escapeHtml(lead.phone||'\u2014')} ${lead.phone ? '<span class="vbadge vb-warn">\u26a0 Unverified</span>' : ''}</span></div>
@@ -3048,7 +3032,6 @@ function openDetailPanel(lead){
     ${lead.established ? `<div class="detail-row"><span class="dl">Established</span><span class="dv">${escapeHtml(String(lead.established))}</span></div>` : ''}
     ${lead.qbcc ? `<div class="detail-row"><span class="dl">QBCC licence</span><span class="dv">${escapeHtml(lead.qbcc)}</span></div>` : ''}
     ${lead.mapsUrl ? `<div class="detail-row"><span class="dl">Google Maps</span><span class="dv"><a href="${escapeHtml(lead.mapsUrl)}" target="_blank" rel="noopener">Open in Maps &rarr;</a></span></div>` : ''}
->>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
     <div class="detail-row"><span class="dl">Website</span><span class="dv">${lead.website ? `<a href="${escapeHtml(lead.website)}" target="_blank" rel="noopener">${escapeHtml(lead.website)}</a>` : '\u2014'}</span></div>
     <div class="detail-row"><span class="dl">Rating</span><span class="dv">${lead.rating ? '\u2605 '+Number(lead.rating).toFixed(1)+' ('+(lead.reviews||0)+' reviews)' : '\u2014'}</span></div>
     <div class="detail-row"><span class="dl">Status</span><span class="dv">${escapeHtml(lead.status||'New')}</span></div>
@@ -3483,8 +3466,6 @@ document.getElementById('btnAddOptOut').addEventListener('click', async () => {
   }catch(e){ alert('Could not add to the opt-out list.'); }
 });
 
-<<<<<<< HEAD
-=======
 document.getElementById('btnSyncSeed').addEventListener('click', async () => {
   if(!currentUser || currentUser.role !== 'Super Admin'){ alert('Only a Super Admin can do this.'); return; }
   const btn = document.getElementById('btnSyncSeed');
@@ -3499,7 +3480,6 @@ document.getElementById('btnSyncSeed').addEventListener('click', async () => {
   btn.disabled = false; btn.textContent = 'Load new bundled leads & users';
 });
 
->>>>>>> 9bd192d (Add 281 leads, user john, sync-seed, AI prospecting features)
 /* ---- Privacy / compliance static content (placeholder text - not legal advice) ---- */
 const POLICY_CONTENT = {
   privacy: {
