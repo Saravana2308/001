@@ -1412,7 +1412,7 @@
         <option>Agent</option><option>Super Admin</option>
       </select>
     </div>
-    <div class="field"><label>Password</label><input type="text" id="u_password" placeholder="Leave blank to keep current"></div>
+    <div class="field"><label>Password</label><input type="password" id="u_password" autocomplete="new-password" placeholder="Required for new users"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" id="u_cancel">Cancel</button>
       <button class="btn btn-amber" id="u_save">Save user</button>
@@ -1593,6 +1593,7 @@ function applyRoleUI(){
   const isSuperAdmin = currentUser && currentUser.role === 'Super Admin';
   document.getElementById('navUsers').style.display = isSuperAdmin ? '' : 'none';
   document.getElementById('navReset').style.display = isSuperAdmin ? '' : 'none';
+  document.getElementById('viewUsers').style.display = isSuperAdmin ? '' : 'none';
   const badge = document.getElementById('currentUserBadge');
   if(badge && currentUser){
     badge.textContent = currentUser.username + ' · ' + currentUser.role;
@@ -1686,6 +1687,7 @@ document.getElementById('navLogout').addEventListener('click', () => {
 
 /* ================= NAV / VIEW ROUTING ================= */
 function switchView(viewId){
+  if(viewId === 'viewUsers' && (!currentUser || currentUser.role !== 'Super Admin')) return;
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(viewId).classList.add('active');
   document.querySelectorAll('.nav-item[data-view]').forEach(b => b.classList.remove('active'));
@@ -2444,6 +2446,7 @@ async function renderUsers(){
 function openUserModal(userId){
   editingUserId = userId || null;
   document.getElementById('u_password').value = '';
+  document.getElementById('u_password').placeholder = editingUserId ? 'Leave blank to keep current' : 'Required for new users';
   if(editingUserId){
     const u = usersCache.find(a => a.id === editingUserId);
     userModalTitle.textContent = 'Edit user';
@@ -2472,7 +2475,9 @@ document.getElementById('u_save').addEventListener('click', async () => {
   const email = document.getElementById('u_email').value.trim();
   const role = document.getElementById('u_role').value;
   const password = document.getElementById('u_password').value;
-  if(!username){ return; }
+  if(!username){ alert('Enter a username.'); return; }
+  if(!editingUserId && password.length < 4){ alert('Enter a password of at least 4 characters.'); return; }
+  if(password && password.length < 4){ alert('Password must be at least 4 characters.'); return; }
 
   try{
     let res, data;

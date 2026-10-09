@@ -69,6 +69,15 @@ further hardening.
 Change these from the Users tab (Super Admin only) once you're live -
 they're seed data, everyone reading this README knows them.
 
+## User access
+
+Sign in as a Super Admin and open the **Users** tab to add as many accounts
+as needed. Set a username, password (at least 4 characters), email, and role
+for each account. Super Admins have access to every app section, including
+user management and resetting demo leads; Agents can use the lead tools but
+cannot open user management or reset the lead data. At least one Super Admin
+must remain, and new accounts do not receive a shared default password.
+
 ## 1. Push this to GitHub (repo name: lead-generator)
 
 Run these from inside this folder:
