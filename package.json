@@ -1,6 +1,6 @@
 {
   "name": "lead-generator",
-  "version": "1.0.0",
+  "version": "2",
   "description": "Lead Tools - lead management dashboard with a real backend API, deployable on Vercel.",
   "private": true,
   "scripts": {
@@ -8,5 +8,5 @@
   },
   "dependencies": {
     "@vercel/kv": "^1.0.1"
-  }
+  }a
 }
